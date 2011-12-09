@@ -1,0 +1,25 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="101.5" y="18.5" idtf="var1" id="156485960" shapeColor="16728128" left="108.5" top="15.6406" right="144.044" bottom="35.3594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="98701876" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="57.5" y="134.5" idtf="v2" id="156485176" shapeColor="16728128" left="64.5" top="131.641" right="85.388" bottom="151.359" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="98701876" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="150.5" y="134.5" idtf="v1" id="156486352" shapeColor="16728128" left="157.5" top="131.641" right="178.388" bottom="151.359" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="98701876" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/relation" x="16" y="61" idtf="значение*" id="156487136" shapeColor="16728128" left="18.5091" top="61.1406" right="97.4909" bottom="80.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="98701876" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<arc type="arc/const/pos" idtf="" id_b="156486352" id_e="156485176" id="156481048" parent="98701876" shapeColor="16744576" b_x="143.5" b_y="134.5" e_x="64.5" e_y="134.5" dotBBalance="0" dotEBalance="0">
+<points/>
+</arc>
+</staticSector>
+</GWF>

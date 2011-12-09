@@ -1,0 +1,7 @@
+#include "test.scs"
+
+a = [];
+_b = [. .];
+c = (a,_b);
+
+c =c= /"asdf"/;

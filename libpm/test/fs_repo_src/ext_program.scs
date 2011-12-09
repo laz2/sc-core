@@ -1,0 +1,8 @@
+
+#include "scp_keynodes.scsy"
+
+dynamicModule   = "/proc/ext_program/keynode/dynamicModule";
+externalProgram = "/proc/ext_program/keynode/externalProgram";
+
+dynamicModule -> libPMd;
+externalProgram, libPMd -> Test_ext_prg = { prm_: { 1_: in_: $1, 2_: out_: $2, 3_: in_: out_: $3 } };

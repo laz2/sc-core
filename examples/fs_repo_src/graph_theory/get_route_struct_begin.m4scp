@@ -1,0 +1,90 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "graph_keynodes.scsy"
+#include "lib_keynodes.scsy"
+
+//
+// Процедура получения начала структуры маршрута.
+//
+// @author Dmitry Lazurkin
+//
+procedure(get_route_struct_begin,
+[[
+	vertex_;
+]], 
+[{
+	arc2,
+	arc4,
+	element,
+	route_struct, route_begin, // переменные для параметров
+	visit_set,                 // множество посещений для итерации
+	cur_visit,                 // текущее посещение
+	other_visit               
+}], 
+{[
+	1_:  in_: route_struct,    // структуруа маршрута
+	2_: out_: route_begin      // начало структуры маршрута
+]})
+
+// Копируем множество вершин структуры маршрута для итерации
+searchSetStr5([
+    1_:  fixed_: route_struct,
+    2_: assign_: arc2,
+    3_: assign_: element,
+    4_: assign_: arc4,
+    5_:  fixed_: vertex_,
+    set3_: assign_: visit_set
+])
+
+// Итерация по всем посещениям
+label([next_connective])
+    searchElStr3([
+        1_:  fixed_: visit_set,
+        2_: assign_: arc2,
+        3_: assign_: cur_visit
+    ],, return_label)
+
+    eraseEl([1_: fixed_: f_: arc2])
+	
+	callReturn([
+		1_: fixed_: bin_ord_at_1, 
+		2_: {[
+			1_: route_struct, 
+			2_: cur_visit, 
+			3_: other_visit
+		]}
+	])
+
+	ifVarAssign([1_: other_visit], next_connective, begin_founded)
+	
+label([begin_founded])
+varAssign([1_: route_begin, 2_: fixed_: cur_visit])
+
+label([return_label])
+
+eraseEl([1_: fixed_: f_: visit_set])
+
+return()
+
+end

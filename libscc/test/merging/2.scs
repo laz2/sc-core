@@ -1,0 +1,6 @@
+
+// Merge existent elements
+
+el1, el2;
+
+el1 = el2;

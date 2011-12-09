@@ -1,0 +1,101 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+#include "scp_keynodes.scsy"
+#include "graph_keynodes.scsy"
+#include "lib_keynodes.scsy"
+
+//
+// Программа добавления посещения вершины в маршрут.
+//
+// @author Dmitry Lazurkin
+//
+procedure(add_vertex_visit_to_route,
+[[
+	"route_correspondence*";
+	1_;
+	vertex_;
+	build_ord_bin_conn;
+	bin_ord_at_1;
+	bin_ord_at_2;
+]],
+[{
+	arc2, arc4, conn,
+	route_struct,  // структура маршрута
+	route_visit,   // отношение соответствия для текущего маршрута
+	route, vertex, vertex_visit // переменные для параметров
+}],
+{[
+	1_:  in_: route,    // связка отношения "route*"
+	2_:  in_: vertex,   // вершина, для которой добавляется посещение
+	3_: out_: vertex_visit
+]})
+
+// Находим структуру маршрута
+searchElStr5([
+    1_:  fixed_: route,
+    2_: assign_: arc_: const_: pos_: arc2,
+    3_: assign_: node_: const_: route_struct,
+    4_: assign_: arc_: const_: pos_: arc4,
+    5_:  fixed_: 1_
+])
+
+// Находим отношения соответствия для маршрута
+callReturn([1_: fixed_: bin_ord_at_2, 2_: {[ 1_: "route_correspondence*", 2_: route, 3_: route_visit]}])
+
+// Проверяем, может уже есть посещение для этой вершины
+callReturn([
+	1_: fixed_: bin_ord_at_1, 
+	2_: {[
+		1_: route_visit, 
+		2_: vertex, 
+		3_: vertex_visit
+	]}
+])
+
+ifVarAssign([1_: vertex_visit], return_label)
+
+// Создаем новое посещение
+genEl([1_: assign_: node_: const_: vertex_visit])
+
+genElStr5([
+    1_:  fixed_: route_struct,
+    2_: assign_: arc_: pos_: const_: arc2,
+    3_:  fixed_: vertex_visit,
+    4_: assign_: arc_: pos_: const_: arc4,
+    5_:  fixed_: vertex_
+])
+
+callReturn([
+	1_: fixed_: build_ord_bin_conn, 
+	2_: {[
+		1_: route_visit, 
+		2_: vertex_visit, 
+		3_: vertex,
+		4_: conn
+	]}
+])
+
+label([return_label])
+
+return()
+
+end

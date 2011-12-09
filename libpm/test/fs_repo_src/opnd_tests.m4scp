@@ -1,0 +1,88 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+
+program(test_opnd_not_found, 
+[[
+]], [{a}])
+genEl([2_: assign_: a])
+return()
+end
+
+program(test_opnd_not_accessible, 
+[[
+]], [{}])
+genEl([1_: assign_: "/proc/keynode/1_"])
+return()
+end
+
+program(test_opnd_must_be_assign, 
+[[
+]], [{a}])
+genEl([1_: a])
+return()
+end
+
+program(test_opnd_must_be_var, 
+[[ a
+]], [{}])
+genEl([1_: assign_: a])
+return()
+end
+
+program(test_opnd_must_be_var_ifVarAssign, 
+[[ a
+]], [{}])
+ifVarAssign([1_: a])
+return()
+end
+
+one =n= 1;
+zero =n= 0;
+
+program(test_opnd_has_fixed_, 
+[[ one;
+]], [{}])
+ifFormCont([1_: assign_: one])
+return()
+end
+
+program(test_opnd_fixed_must_have_value, 
+[[
+]], [{a}])
+ifFormCont([1_: fixed_: a])
+return()
+end
+
+program(test_exessive_opnd, 
+[[
+	el1;
+]], [{arc2, el3, arc4}])
+searchElStr3([
+	1_:  fixed_: el1,
+	2_: assign_: arc2,
+	3_: assign_: el3,
+	4_: assign_: arc4
+])
+return()
+end

@@ -1,0 +1,32 @@
+
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+testdata_A = "/lib/relation/test/testdata/A";
+testdata_B = "/lib/relation/test/testdata/B";
+testdata_C = "/lib/relation/test/testdata/C";
+testdata_D = "/lib/relation/test/testdata/D";
+testdata_one = "/lib/relation/test/testdata/one";
+testdata_two = "/lib/relation/test/testdata/two";
+testdata_three = "/lib/relation/test/testdata/three";
+testdata_four = "/lib/relation/test/testdata/four";
+testdata_relation = "/lib/relation/test/testdata/relation";

@@ -1,0 +1,56 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="49" y="22" idtf="var1" id="153963936" shapeColor="16728128" left="56" top="19.1406" right="91.5443" bottom="38.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="106149836" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="151" y="22" idtf="var2" id="153964328" shapeColor="16728128" left="158" top="19.1406" right="193.544" bottom="38.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="106149836" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="257" y="22" idtf="var3" id="153964720" shapeColor="16728128" left="264" top="19.1406" right="299.544" bottom="38.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="106149836" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="48" y="119" idtf="v1" id="153965112" shapeColor="16728128" left="61.556" top="120.141" right="82.444" bottom="139.859" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="106149836" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[  ]]>
+</content>
+</node>
+<node type="node/const/general_node" x="151" y="119" idtf="v2" id="153965504" shapeColor="16728128" left="165.556" top="121.141" right="186.444" bottom="140.859" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="106149836" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[18]]>
+</content>
+</node>
+<node type="node/const/general_node" x="257" y="119" idtf="v3" id="153965896" shapeColor="16728128" left="272.556" top="122.141" right="293.444" bottom="141.859" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="106149836" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[10]]>
+</content>
+</node>
+<pair type="pair/const/orient" idtf="" id_b="153963936" id_e="153965112" id="154245368" parent="106149836" shapeColor="16744576" b_x="48.9278" b_y="28.9996" e_x="48.1959" e_y="99.9999" dotBBalance="0" dotEBalance="0">
+<points/>
+</pair>
+<pair type="pair/const/orient" idtf="" id_b="153964328" id_e="153965504" id="154245744" parent="106149836" shapeColor="16744576" b_x="151" b_y="29" e_x="151" e_y="100" dotBBalance="0" dotEBalance="0">
+<points/>
+</pair>
+<pair type="pair/const/orient" idtf="" id_b="153964720" id_e="153965896" id="154246120" parent="106149836" shapeColor="16744576" b_x="257" b_y="29" e_x="257" e_y="100" dotBBalance="0" dotEBalance="0">
+<points/>
+</pair>
+<node type="node/const/relation" x="317" y="57" idtf="значение*" id="154646400" shapeColor="16728128" left="324" top="54.1406" right="402.982" bottom="73.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="106149836" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<arc type="arc/const/pos" idtf="" id_b="154646400" id_e="154245744" id="154246496" parent="106149836" shapeColor="16744576" b_x="317" b_y="50" e_x="151" e_y="39" dotBBalance="0" dotEBalance="0.140845">
+<points>
+<point x="317" y="39"/>
+</points>
+</arc>
+<arc type="arc/const/pos" idtf="" id_b="154646400" id_e="154245368" id="154246872" parent="106149836" shapeColor="16744576" b_x="317" b_y="64" e_x="48.4433" e_y="75.9976" dotBBalance="0" dotEBalance="0.66194">
+<points>
+<point x="317" y="76"/>
+</points>
+</arc>
+<arc type="arc/const/pos" idtf="" id_b="154646400" id_e="154246120" id="154247248" parent="106149836" shapeColor="16744576" b_x="310" b_y="57.0021" e_x="257" e_y="57.0179" dotBBalance="0" dotEBalance="0.394618">
+<points/>
+</arc>
+</staticSector>
+</GWF>

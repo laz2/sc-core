@@ -1,0 +1,9 @@
+
+// Error
+// Try to merge node with arc
+
+node = {};
+
+arc = (b -> e);
+
+arc = node;

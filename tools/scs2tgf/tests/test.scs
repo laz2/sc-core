@@ -1,0 +1,10 @@
+
+#toplevel
+
+[
+	f;
+	e;
+	e = f = { };
+];
+
+#toplevel

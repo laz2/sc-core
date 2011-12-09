@@ -1,0 +1,15 @@
+
+/*search_bin_pair_begin_proc = "/lib/search/bin_pair_begin/bin_pair_begin";
+search_bin_pair_begin_except_rel = "/lib/search/bin_pair_begin_except_rel/bin_pair_begin_except_rel";
+
+search_bin_pair_end_proc = "/lib/search/bin_pair_end/bin_pair_end";
+search_bin_pair_end_except_rel = "/lib/search/bin_pair_end_except_rel/bin_pair_end_except_rel";
+
+
+search_end="/lib/search/bin_pair_end/bin_pair_end";
+
+search_end;*/
+
+"/path/common_prefix_suffix/common_prefix_suffix";
+"/path/common_prefix/common_prefix";
+

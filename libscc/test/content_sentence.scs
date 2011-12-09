@@ -1,0 +1,23 @@
+
+// string content
+str_cont =c= /"
+	\n\r\thello\\ "/;
+
+// string content "hello, dude!" in base64
+b64_str_cont =c= b64/"aGVsbG8s
+	IGR1ZGUh"/;
+
+// integer content
+int_cont1 =n= 1;
+int_cont2 =n= +1;
+int_cont3 =n= -1; 
+
+// real content
+real_cont1 =n= 1.;
+real_cont2 =n= +1.;
+real_cont3 =n= -1.;
+real_cont4 =n= 1.0156;
+
+// content from file
+file_cont =fe= "content.txt";
+ 

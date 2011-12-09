@@ -1,0 +1,3 @@
+
+@node,@const -> a,b,c,d;
+@arc -> arc;

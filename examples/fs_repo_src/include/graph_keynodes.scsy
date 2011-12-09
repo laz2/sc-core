@@ -1,0 +1,65 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+//
+// Пути к ключевым узлам теории графов.
+//
+
+graph_structure = "/graph_theory/keynode/graph_structure";
+directed_graph = "/graph_theory/keynode/directed_graph";
+undirected_graph = "/graph_theory/keynode/undirected_graph";
+"path*" = "/graph_theory/keynode/path*";
+"route_correspondence*" = "/graph_theory/keynode/route_correspondence*";
+edge_ = "/graph_theory/keynode/edge_";
+vertex_ = "/graph_theory/keynode/vertex_";
+connective_ = "/graph_theory/keynode/connective_";
+
+get_edge_vertexes = "/graph_theory/get_edge_vertexes/get_edge_vertexes";
+get_second_edge_vertex = "/graph_theory/get_second_edge_vertex/get_second_edge_vertex";
+get_route_struct_begin = "/graph_theory/get_route_struct_begin/get_route_struct_begin";
+print_graph = "/graph_theory/print_graph/print_graph";
+print_route = "/graph_theory/print_route/print_route";
+add_vertex_visit_to_route = "/graph_theory/add_vertex_visit_to_route/add_vertex_visit_to_route";
+add_connective_visit_to_route = "/graph_theory/add_connective_visit_to_route/add_connective_visit_to_route";
+
+// Тестовый данные
+test_graph_G = "/graph_theory/test/testdata/G";
+test_A = "/graph_theory/test/testdata/A";
+test_B = "/graph_theory/test/testdata/B";
+test_C = "/graph_theory/test/testdata/C";
+test_D = "/graph_theory/test/testdata/D";
+test_E = "/graph_theory/test/testdata/E";
+test_F = "/graph_theory/test/testdata/F";
+test_K = "/graph_theory/test/testdata/K";
+test_AB = "/graph_theory/test/testdata/AB";
+test_AC = "/graph_theory/test/testdata/AC";
+test_BE = "/graph_theory/test/testdata/BE";
+test_CE = "/graph_theory/test/testdata/CE";
+test_CD = "/graph_theory/test/testdata/CD";
+
+test_Route1 = "/graph_theory/test/testdata/Route1";
+test_R1_A = "/graph_theory/test/testdata/R1_A";
+test_R1_B = "/graph_theory/test/testdata/R1_B";
+test_R1_E = "/graph_theory/test/testdata/R1_E";
+test_R1_F = "/graph_theory/test/testdata/R1_F";
+test_R1_Corr = "/graph_theory/test/testdata/R1_Coor";
+test_R1_Struct = "/graph_theory/test/testdata/R1_Struct";

@@ -1,0 +1,10 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="77" y="50" idtf="const1" id="43153608" shapeColor="16728128" left="119.357" top="52.1406" right="168.643" bottom="71.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="103667372" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[Hello World]]>
+</content>
+</node>
+</staticSector>
+</GWF>

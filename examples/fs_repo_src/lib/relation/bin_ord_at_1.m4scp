@@ -1,0 +1,75 @@
+
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "lib_keynodes.scsy"
+
+
+//
+// ѕроцедура поиска св€зки бинарного отношени€ по второму элементу св€зки
+// @author Dmitry Lazurkin
+//
+procedure(bin_ord_at_1,
+[[
+	2_;
+	bin_ord_at;
+]], 
+[{
+	arc2,
+	arc4,
+	element,
+	relation, first, second, // переменные дл€ параметров    
+	connective               // найденна€ св€зка
+}], 
+{[
+	1_:  in_: relation,    // отношение
+	2_:  in_: second,      // второй элемент св€зки дл€ поиска
+	3_: out_: first        // выходной параметр: найденный первый элемент
+]})
+
+callReturn([
+	1_: fixed_: bin_ord_at, 
+	2_: {[
+		1_: relation, 
+		2_: second, 
+		3_: 2_,
+		4_: connective
+	]}
+])
+
+ifVarAssign([1_: connective],, return_label)
+
+// ѕолучаем первый элемент найденной св€зки
+searchElStr5([
+	1_:  fixed_: connective,
+	2_: assign_: arc_: const_: pos_: arc2,
+	3_: assign_: first,
+	4_: assign_: arc_: const_: pos_: arc4,
+	5_:  fixed_: 1_
+])
+
+label(return_label)
+
+return()
+
+end

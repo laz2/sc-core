@@ -1,0 +1,5 @@
+
+// Error
+// Try to take reference from type conversion arc
+
+arc = (@node -> undf);

@@ -1,0 +1,6 @@
+
+undf;
+@node -> undf;
+
+arc = (from -> to);
+@neg -> arc;

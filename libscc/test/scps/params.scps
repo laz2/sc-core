@@ -1,0 +1,5 @@
+
+@programSCP test(in_: in_param, out_: out_param, in_: out_: in_out_param)
+{
+	return();
+}

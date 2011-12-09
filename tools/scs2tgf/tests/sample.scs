@@ -1,0 +1,7 @@
+/* this is some sample test code */
+
+"some node" -> "some undf";
+
+"some node" -> a:c;
+
+a ~> d;

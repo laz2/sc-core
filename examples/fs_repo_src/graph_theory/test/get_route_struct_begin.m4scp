@@ -1,0 +1,53 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "lib_keynodes.scsy"
+#include "graph_keynodes.scsy"
+
+program(test1,
+[[
+	test_R1_Struct; test_R1_A;
+	get_route_struct_begin;
+	test_success; test_failure;
+]],
+[{ descr, route_begin }])
+
+callReturn([
+	1_: fixed_: get_route_struct_begin, 
+	2_: {[
+		1_: test_R1_Struct, 
+		2_: route_begin
+	]}
+])
+
+ifVarAssign([1_: route_begin],, test1_failure)
+ifCoin([1_: fixed_: route_begin, 2_: fixed_: test_R1_A],, test1_failure)
+
+print([1_: fixed_: test_success])
+return()
+
+label(test1_failure)
+print([1_: fixed_: test_failure])
+return()
+
+end

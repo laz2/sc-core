@@ -1,0 +1,14 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="59" y="40" idtf="var1" id="132482480" shapeColor="16728128" left="68.2279" top="32.1406" right="103.772" bottom="51.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="42545892" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/relation" x="117" y="75" idtf="значение*" id="132484048" shapeColor="16728128" left="124" top="72.1404" right="202.982" bottom="91.8592" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="42545892" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+</staticSector>
+</GWF>

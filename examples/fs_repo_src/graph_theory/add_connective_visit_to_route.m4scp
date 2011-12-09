@@ -1,0 +1,132 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "lib_keynodes.scsy"
+#include "graph_keynodes.scsy"
+
+//
+// Добавляет посещение связки connective и инцидентные ей вершины в маршурт route.
+//
+// @author Dmitry Lazurkin
+//
+procedure(add_connective_visit_to_route,
+[[
+	1_; 2_;
+	"route_correspondence*"; connective_;
+	add_vertex_visit_to_route;
+	bin_ord_at_1; build_ord_bin_conn;
+]],
+[{
+	arc2, arc4, conn,
+	route_struct,  // структура маршрута
+	route_visit,   // отношение соответствия для текущего маршрута
+	from_vertex_visit,
+	to_vertex_visit,
+	edge_visit, // Ориентированная связка, которая обозначает в структуре маршрута посещение ребра графа, 
+                // на котором задан мартшрут.
+	route, connective, from_vertex, to_vertex, connective_visit // переменные для параметров
+}],
+{[
+	1_:  in_: route,           // связка отношения "route*"
+	2_:  in_: connective,      // связка, для которой добавляется посещение
+	3_:  in_: from_vertex,     // вершина, инцидентная связке 
+	4_:  in_: to_vertex,       // вершина, инцидентная связке
+	5_: out_: connective_visit   // посещение связки
+]})
+
+// Находим структуру маршрута
+searchElStr5([
+    1_:  fixed_: route,
+    2_: assign_: arc_: const_: pos_: arc2,
+    3_: assign_: node_: const_: route_struct,
+    4_: assign_: arc_: const_: pos_: arc4,
+    5_:  fixed_: 1_
+])
+
+// Находим отношения соответствия для маршрута
+callReturn([1_: fixed_: bin_ord_at_2, 2_: {[ 1_: "route_correspondence*", 2_: route, 3_: route_visit]}])
+
+// Добавим посещение вершины from_vertex в маршрут.
+callReturn([
+	1_: fixed_: add_vertex_visit_to_route, 
+	2_: {[ 
+		1_: route, 
+		2_: from_vertex,
+		3_: from_vertex_visit
+	]}
+])
+
+// Создаем посещение связки
+genEl([1_: assign_: node_: const_: edge_visit])
+
+// Добавляем посещение связки в структуру маршрута 
+genElStr5([
+    1_:  fixed_: route_struct,
+    2_: assign_: arc_: pos_: const_: arc2,
+    3_:  fixed_: edge_visit,
+    4_: assign_: arc_: pos_: const_: arc4,
+    5_:  fixed_: connective_
+])
+
+// Указываем, посещением чего является edge_visit
+callReturn([
+	1_: fixed_: build_ord_bin_conn, 
+	2_: {[
+		1_: route_visit, 
+		2_: edge_visit, 
+		3_: connective,
+		4_: conn
+	]}
+])
+
+// Указываем, что edge_visit идет из from_vertex_visit
+genElStr5([
+    1_:  fixed_: edge_visit,
+    2_: assign_: arc_: pos_: const_: arc2,
+    3_:  fixed_: from_vertex_visit,
+    4_: assign_: arc_: pos_: const_: arc4,
+    5_:  fixed_: 1_
+])
+
+// Находим посещение для to_vertex
+callReturn([
+	1_: fixed_: bin_ord_at_1, 
+	2_: {[
+		1_: route_visit, 
+		2_: to_vertex, 
+		3_: to_vertex_visit
+	]}
+])
+
+// Указываем, что edge_visit входит в to_vertex_visit
+genElStr5([
+    1_:  fixed_: edge_visit,
+    2_: assign_: arc_: pos_: const_: arc2,
+    3_:  fixed_: to_vertex_visit,
+    4_: assign_: arc_: pos_: const_: arc4,
+    5_:  fixed_: 2_
+])
+
+return()
+
+end

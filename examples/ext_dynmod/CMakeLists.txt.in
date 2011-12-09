@@ -1,0 +1,15 @@
+
+project(ext_dynmod_example)
+
+cmake_minimum_required(VERSION 2.6)
+
+find_library(libSC "libSC" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
+find_library(libSCd "libSCd" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
+
+find_library(libPM "libPM" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
+find_library(libPMd "libPMd" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
+
+include_directories("@EXAMPLE_LIBSC_INCLUDE_DIR@" "@EXAMPLE_LIBTGF_INCLUDE_DIR@" "@EXAMPLE_LIBSYS_INCLUDE_DIR@" "@EXAMPLE_LIBPM_INCLUDE_DIR@")
+add_library(ext_dynmod SHARED cpp/ext_dynmod.cpp)
+target_link_libraries(ext_dynmod debug ${libSCd} ${libPMd})
+target_link_libraries(ext_dynmod optimized ${libSC} ${libPM})

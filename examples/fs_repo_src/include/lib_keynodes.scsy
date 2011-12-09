@@ -1,0 +1,31 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "list_keynodes.scsy"
+
+test_success = "/lib/tests/tests/test_success";
+test_failure = "/lib/tests/tests/test_failure";
+
+build_ord_bin_conn = "/lib/relation/build_ord_bin_conn/build_ord_bin_conn";
+bin_ord_at = "/lib/relation/bin_ord_at/bin_ord_at";
+bin_ord_at_1 = "/lib/relation/bin_ord_at_1/bin_ord_at_1";
+bin_ord_at_2 = "/lib/relation/bin_ord_at_2/bin_ord_at_2";

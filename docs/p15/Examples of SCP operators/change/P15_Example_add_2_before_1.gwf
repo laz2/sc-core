@@ -1,0 +1,18 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="48" y="33" idtf="const1" id="151893032" shapeColor="16728128" left="61.556" top="34.1406" right="110.842" bottom="53.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="105220028" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[  ]]>
+</content>
+</node>
+<node type="node/const/general_node" x="151" y="33" idtf="const2" id="151893424" shapeColor="16728128" left="165.556" top="35.1406" right="214.842" bottom="54.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="105220028" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[30]]>
+</content>
+</node>
+<node type="node/const/general_node" x="257" y="33" idtf="const3" id="105270728" shapeColor="16728128" left="272.556" top="36.1406" right="321.842" bottom="55.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="true" parent="105220028" haveBus="false">
+<content type="1" mime_type="content/binary" file_name=""> <![CDATA[15]]>
+</content>
+</node>
+</staticSector>
+</GWF>

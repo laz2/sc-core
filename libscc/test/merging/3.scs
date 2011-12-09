@@ -1,0 +1,5 @@
+
+// Error
+// Try to merge special node as main with other element
+
+@node = a;

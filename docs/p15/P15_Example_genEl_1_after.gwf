@@ -1,0 +1,24 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="62" y="37" idtf="var1" id="85344816" shapeColor="16728128" left="69" top="34.1406" right="104.544" bottom="53.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="74619572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="62" y="110" idtf="" id="63706400" shapeColor="16728128" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="74619572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<arc type="arc/const/pos" idtf="" id_b="85344816" id_e="63706400" id="87015896" parent="74619572" shapeColor="16744576" b_x="62" b_y="44" e_x="62" e_y="103" dotBBalance="0" dotEBalance="0">
+<points/>
+</arc>
+<node type="node/const/relation" x="123" y="70" idtf="значение*" id="85315336" shapeColor="16728128" left="130" top="67.1406" right="208.982" bottom="86.8594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="74619572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<arc type="arc/const/pos" idtf="" id_b="85315336" id_e="87015896" id="85314184" parent="74619572" shapeColor="16744576" b_x="116" b_y="70.0088" e_x="62" e_y="70.0768" dotBBalance="0" dotEBalance="0.44198">
+<points/>
+</arc>
+</staticSector>
+</GWF>

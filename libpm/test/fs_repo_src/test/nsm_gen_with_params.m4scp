@@ -1,0 +1,95 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2011 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "nsm_keynodes.scsy"
+
+program(test, 
+[[
+	1_; 2_;
+	nsm_parameters_ = "/proc/agents/nsm/keynode/nsm_parameters_";
+	Set;
+	pattern = [ _set ->> _el ];
+]], [{Goal, Arc2, GoalArc, Arc4, Params, Tuple}])
+
+genEl([1_: assign_: node_: const_: Goal])
+
+genElStr3([
+	1_: fixed_: Goal,
+	2_: assign_: arc_: const_: pos_: GoalArc,
+	3_: fixed_: pattern
+])
+
+genElStr5([
+	1_: fixed_:  Goal,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: assign_: Params,
+	4_: assign_: arc_: const_: pos_: Arc4,
+	5_: fixed_:  nsm_parameters_
+])
+
+genElStr3([
+	1_: fixed_: Params,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: assign_: Tuple
+])
+
+genElStr5([
+	1_: fixed_:  Tuple,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: fixed_: _set,
+	4_: assign_: arc_: const_: pos_: Arc4,
+	5_: fixed_: 1_
+])
+
+genElStr5([
+	1_: fixed_:  Tuple,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: fixed_: Set,
+	4_: assign_: arc_: const_: pos_: Arc4,
+	5_: fixed_: 2_
+])
+
+genElStr3([
+	1_: fixed_: goals,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: fixed_: Goal
+])
+
+genElStr3([
+	1_: fixed_: confirm_,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: fixed_: GoalArc
+])
+
+genElStr3([
+	1_: fixed_: generate_,
+	2_: assign_: arc_: const_: pos_: Arc2,
+	3_: fixed_: GoalArc
+])
+
+printEl([1_: fixed_: Set])
+printEl([1_: fixed_: Set])
+printEl([1_: fixed_: Set])
+
+return()
+end

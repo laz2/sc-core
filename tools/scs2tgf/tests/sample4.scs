@@ -1,0 +1,41 @@
+/*
+ *	This is IVP's sample.
+ *	It shows U that search on Op3 may find something
+ *	else you might expect. It's NOT a bug !
+ *	12.12.01 NOTE: this is old and UNSUPPORTED scp syntax.
+ */
+
+program,run_it ->
+	{var_:variables, const_:consts, template_:templs} ->
+		init_:Op1,Op2,Op3,Op4,Op5;
+
+variables -> v2,v3,v11,v12;
+consts -> c1;
+
+operator -> Op1,Op2,Op3,Op4,Op5;
+
+Op1 -> implementation_:genElStr3,
+	1_:c1,
+	2_:assign_:const_:pos_:v2,
+	3_:assign_:const_:node_:v3,
+	goto_:Op2;
+
+Op2 -> implementation_:searchElStr3,
+	1_:assign_:const_:node_:v11,
+	2_:assign_:const_:pos_:v12,
+	3_:fixed_:v3,
+	then_:Op3,
+        else_:Op5;
+
+Op3 -> implementation_:ifCoin,
+	1_:v12,
+	2_:v2,
+	then_:Op4,
+        else_:Op5;
+
+Op4 -> implementation_:ifCoin,
+	1_:v11,
+	2_:c1,
+	goto_:Op5;
+
+operator_final -> Op5 ->implementation_:nop;

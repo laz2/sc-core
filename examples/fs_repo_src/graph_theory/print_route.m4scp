@@ -1,0 +1,150 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "graph_keynodes.scsy"
+#include "lib_keynodes.scsy"
+
+//
+// Программа вывода на консоль маршрута.
+//
+// @author Dmitry Lazurkin
+//
+procedure(print_route,
+[[
+	1_; 2_;
+	"route_correspondence*";
+	bin_ord_at_2;
+	arc_text =c= /" -> "/;
+]], 
+[{
+	route, // переменная параметра route
+	arc2,
+	arc4, idtf_buffer, 
+	route_struct,  // структура маршрута
+	route_visit,   // отношение соответствия для текущего маршрута
+	cur_visit,     // текущее посещение для вывода
+	visited_vertex // текущая посещенная вершина
+}], 
+{[
+	1_:  in_: route    // связка отношения "route*"
+]})
+
+genEl([1_: assign_: undf_: idtf_buffer])
+
+// Находим структуру маршрута
+searchElStr5([
+    1_:  fixed_: route,
+    2_: assign_: arc_: const_: pos_: arc2,
+    3_: assign_: node_: const_: route_struct,
+    4_: assign_: arc_: const_: pos_: arc4,
+    5_:  fixed_: 1_
+])
+
+// Находим отношения соответствия для маршрута
+callReturn([
+	1_: fixed_: bin_ord_at_2, 
+	2_: {[
+		1_: "route_correspondence*", 
+		2_: route, 
+		3_: route_visit
+	]}
+])
+
+// Находим начало маршрута
+callReturn([
+	1_: fixed_: get_route_struct_begin, 
+	2_: {[
+		1_: route_struct, 
+		2_: cur_visit 
+	]}
+])
+
+// Находим вершину, соответствующую текущему посещению
+callReturn([
+	1_: fixed_: bin_ord_at_2, 
+	2_: {[
+		1_: route_visit, 
+		2_: cur_visit, 
+		3_: visited_vertex
+	]}
+])
+
+// Выводим текущую посещенную вершину
+idtfMove([1_: fixed_: idtf_buffer, 2_: fixed_: visited_vertex])
+print([1_: fixed_: idtf_buffer])
+
+label([next_visit_label])
+	// Находим следующее посещение
+	callReturn([
+		1_: fixed_: bin_ord_at_2, 
+		2_: {[
+			1_: route_struct, 
+			2_: cur_visit, 
+			3_: cur_visit
+		]}
+	])
+
+	ifVarAssign([1_: cur_visit],, return_label)
+	
+	// Находим вершину, соответствующую текущему посещению
+	callReturn([
+		1_: fixed_: bin_ord_at_2, 
+		2_: {[
+			1_: route_visit, 
+			2_: cur_visit, 
+			3_: visited_vertex
+		]}
+	])
+	
+	print([1_: fixed_: arc_text])
+	
+	// Выводим текущую посещенную вершину
+	idtfMove([1_: fixed_: idtf_buffer, 2_: fixed_: visited_vertex])
+	print([1_: fixed_: idtf_buffer])
+	
+	nop(next_visit_label)
+
+label([return_label])
+
+eraseEl([1_: f_: idtf_buffer])
+
+return()
+
+end
+
+program(print_route_test1,
+[[
+	test_Route1;
+]],
+[{ descr }])
+
+callReturn([
+    1_: print_route,
+    2_: {[
+        1_: test_Route1
+    ]}
+])
+
+return()
+
+end

@@ -1,0 +1,68 @@
+
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "lib_keynodes.scsy"
+
+program(test1,
+[[
+	rel1 = {
+		{ 1_: a, 2_: b },
+		{ 1_: c, 2_: d }
+	};
+	bin_ord_at_2;
+]], [{ second }])
+
+callReturn([1_: fixed_: bin_ord_at_2, 2_: {[1_: rel1, 2_: c, 3_: second]}])
+ifVarAssign([1_: second],, test1_failure)
+ifCoin([1_: fixed_: second, 2_: fixed_: d],, test1_failure) 
+
+print([1_: fixed_: /"success"/])
+return()
+
+label(test1_failure)
+print([1_: fixed_: /"failure"/])
+return()
+
+end
+
+program(test2,
+[[
+	rel2 = {
+		{ 1_: a, 2_: b }
+	};
+	bin_ord_at_2;
+]], [{ second }])
+
+callReturn([1_: fixed_: bin_ord_at_2, 2_: {[1_: rel2, 2_: c, 3_: second]}])
+ifVarAssign([1_: second], test2_failure)
+
+print([1_: fixed_: /"success"/])
+return()
+
+label(test2_failure)
+print([1_: fixed_: /"failure"/])
+return()
+
+end
+

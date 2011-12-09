@@ -1,0 +1,196 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+#include "scp_keynodes.scsy"
+#include "graph_keynodes.scsy"
+
+//
+// Программа вывода на консоль неориентированного графа.
+//
+// @author Dmitry Lazurkin
+//
+procedure(print_graph,
+[[
+	edge_str =c= /" -- "/;
+	edge_;
+	vertex_;
+]],
+[{
+	arc2, arc4, elt3,
+	edges_set, vertexes_set, 
+	printed_vertexes, 
+	cur_edge, cur_vertex,
+	v1,
+	v2,
+	idtf_buffer,
+	g // переменная параметра
+}],
+{[
+	1_:  in_: g
+]})
+
+// Формируем множество связок графа для итерации
+searchSetStr5([
+    1_:  fixed_: g,
+    2_: assign_: arc2,
+    3_: assign_: elt3,
+    4_: assign_: arc4,
+    5_:  fixed_: edge_,
+    set3_: assign_: edges_set
+])
+
+// Создаем буфер, который будет хранить идентификатор выводимой вершины
+genEl([1_: assign_: undf_: idtf_buffer])
+
+// Создаем множество уже выведенных вершин
+genEl([1_: assign_: node_: const_: printed_vertexes])
+
+// Вывод всех ребер графа.
+label([next_edge])
+    searchElStr3([
+        1_:  fixed_: edges_set,
+        2_: assign_: arc2,
+        3_: assign_: cur_edge
+    ],, edge_iter_end)
+
+    eraseEl([1_: fixed_: f_: arc2])
+	
+	// получаем вершины, инцидентные ребру
+	callReturn([
+		1_: fixed_: get_edge_vertexes, 
+		2_: {[
+			1_: cur_edge, 
+			2_: v1, 
+			3_: v2
+		]}
+	])
+	
+	// выводим идентификатор первой вершины
+	idtfMove([1_: fixed_: idtf_buffer, 2_: fixed_: v1])
+	print([1_: fixed_: idtf_buffer])
+	
+	print([1_: fixed_: edge_str])
+	
+	// выводим идентификатор второй вершины
+	idtfMove([1_: fixed_: idtf_buffer, 2_: fixed_: v2])
+	printNl([1_: fixed_: idtf_buffer])
+	
+	//
+	// Добавляем вершины в множество выведенных
+	//
+	genElStr3([
+	    1_:  fixed_: printed_vertexes,
+	    2_: assign_: arc_: pos_: const_: arc2,
+	    3_:  fixed_: v1
+	])
+	
+	genElStr3([
+	    1_:  fixed_: printed_vertexes,
+	    2_: assign_: arc_: pos_: const_: arc2,
+	    3_:  fixed_: v2
+	])
+	
+	nop(next_edge) // на следующую итерацию
+label([edge_iter_end])
+
+eraseEl([1_: f_: edges_set])
+
+// Вывод всех вершин, которые не имеют инцидентных дуг.
+// Формируем множество вершин графа для итерации
+searchSetStr5([
+    1_:  fixed_: g,
+    2_: assign_: arc2,
+    3_: assign_: elt3,
+    4_: assign_: arc4,
+    5_:  fixed_: vertex_,
+    set3_: assign_: vertexes_set
+])
+
+label([next_vertex])
+    searchElStr3([
+        1_:  fixed_: vertexes_set,
+        2_: assign_: arc2,
+        3_: assign_: cur_vertex
+    ],, return_label)
+
+    eraseEl([1_: fixed_: f_: arc2])
+	
+	searchElStr3([
+        1_:  fixed_: printed_vertexes,
+        2_: assign_: arc2,
+        3_:  fixed_: cur_vertex
+    ], next_vertex)
+	
+	idtfMove([1_: fixed_: idtf_buffer, 2_: fixed_: cur_vertex])
+	printNl([1_: fixed_: idtf_buffer])
+	
+	nop(next_vertex) // на следующую итерацию
+
+
+label([return_label])
+
+eraseEl([1_: f_: vertexes_set])
+eraseEl([1_: f_: idtf_buffer])
+
+return()
+
+end
+
+program(print_graph_test1,
+[[
+	test_graph = {
+		vertex_: v1, vertex_: v2, vertex_: v3, vertex_: v4, vertex_: v5, vertex_: not_inc,
+		edge_: e1 = {v1, v2},
+		edge_: e2 = {v1, v3},
+		edge_: e5 = {v5, v4},
+		edge_: e6 = {v3, v4}
+	};
+]],
+[{ }])
+
+callReturn([
+    1_: print_graph,
+    2_: {[
+        1_: test_graph
+    ]}
+])
+
+return()
+
+end
+
+program(print_graph_test2,
+[[
+	test_G;
+]],
+[{ descr }])
+
+callReturn([
+    1_: print_graph,
+    2_: {[
+        1_: test_G
+    ]}
+])
+
+return()
+
+end
+

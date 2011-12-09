@@ -1,0 +1,48 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "ext_program_keynodes.scsy"
+
+callExtReturn = "/proc/keynode/callExtReturn";
+
+dynamicModule -> ext_dynmod;
+externalProgram, ext_dynmod -> Test_ext_prg = { prm_: { 1_: in_: $1, 2_: out_: $2, 3_: in_: out_: $3 } };
+
+program(test, 
+[[
+	Input_parameter;
+	Input_output_parameter;
+]], [{o, io}])
+
+varAssign([1_: io, 2_: fixed_: Input_output_parameter])
+
+callExtReturn([
+	1_: fixed_: "/ext_dynmod/Test_ext_prg",
+	2_: {[ 1_: Input_parameter, 2_: out_: o, 3_: out_: io ]}
+])
+
+printEl([1_: fixed_: o])
+printEl([1_: fixed_: io])
+
+return()
+end

@@ -1,0 +1,74 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "lib_keynodes.scsy"
+#include "graph_keynodes.scsy"
+
+program(test1, 
+[[
+	get_edge_vertexes;
+	t1 = {a, b};
+	t2 = {a, a};
+	c;
+	test_success; test_failure;
+]], [{vertex1, vertex2}])
+
+callReturn([1_: fixed_: get_edge_vertexes, 2_: {[1_: t1, 2_: vertex1, 3_: vertex2]}])
+ifVarAssign([1_: vertex1],, test1_failure)
+ifVarAssign([1_: vertex2],, test1_failure)
+ifEq([1_: fixed_: vertex1, 2_: fixed_: a],, test1_failure)
+ifEq([1_: fixed_: vertex2, 2_: fixed_: b],, test1_failure)
+
+print([1_: fixed_: test_success])
+return()
+
+label(test1_failure)
+print([1_: fixed_: test_failure])
+return()
+
+end
+
+program(test2,
+[[
+	get_edge_vertexes;
+	t1 = {a, b};
+	t2 = {a, a};
+	c;
+	test_success; test_failure;
+]],
+[{ vertex1, vertex2 }])
+
+callReturn([1_: fixed_: get_edge_vertexes, 2_: {[1_: t2, 2_: vertex1, 3_: vertex2]}])
+ifVarAssign([1_: vertex1],, test2_failure)
+ifVarAssign([1_: vertex2],, test2_failure)
+ifEq([1_: fixed_: vertex1, 2_: fixed_: a],, test2_failure)
+ifEq([1_: fixed_: vertex2, 2_: fixed_: a],, test2_failure)
+
+print([1_: fixed_: test_success])
+return()
+
+label(test2_failure)
+print([1_: fixed_: test_failure])
+return()
+
+end

@@ -1,0 +1,91 @@
+
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+
+//
+// Для отношения relation находит связку отношения, в которой элементом с атрибутом val_attr является val. 
+// Только для константных связок. 
+// @author Dmitry Lazurkin
+//
+procedure(bin_ord_at,
+[[
+]], 
+[{
+	arc2,
+	arc4,
+	element,
+	
+	relation, val, val_attr, // переменные для параметров
+	result,                  // переменные для параметров
+	    
+	connectives,             // множество связок relation
+	cur_connective,          // текущая связка
+	cur_val                  // текущий элемент связки
+}], 
+{[
+	1_:  in_: relation,    // отношение
+	2_:  in_: val,         // значение для поиска
+	3_:  in_: val_attr,    // атрибут значения
+	4_: out_: result       // найденная связка
+]})
+
+// Создаем множество всех связок отношения
+searchSetStr3([
+    1_:  fixed_: relation,
+    2_: assign_: arc_: const_: pos_: arc2,
+    3_: assign_: element,
+    set3_: assign_: connectives
+])
+
+// Итерация по всем связкам
+label([next_connective])
+    searchElStr3([
+        1_:  fixed_: connectives,
+        2_: assign_: arc2,
+        3_: assign_: cur_connective
+    ],, return_label)
+
+    eraseEl([1_: fixed_: f_: arc2])
+	
+	searchElStr5([
+		1_:  fixed_: cur_connective,
+	    2_: assign_: arc_: const_: pos_: arc2,
+	    3_: assign_: cur_val,
+	    4_: assign_: arc_: const_: pos_: arc4,
+	    5_:  fixed_: val_attr
+	],, next_connective)
+
+	ifCoin([1_: fixed_: cur_val, 2_: fixed_: val], connective_founded, next_connective)
+    
+label(connective_founded)
+
+varAssign([1_: result, 2_: fixed_: cur_connective])
+
+label(return_label)
+
+eraseEl([1_: fixed_: f_: connectives])
+
+return()
+
+end

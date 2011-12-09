@@ -1,0 +1,71 @@
+
+project(libscc)
+
+cmake_minimum_required(VERSION 2.6)
+
+file(GLOB_RECURSE PUBLIC_HEADERS  "libscc/*.hpp" "libscc/*.h")
+file(GLOB_RECURSE PRIVATE_HEADERS "libscc/*_p.hpp" "libscc/*_p.h")
+list(REMOVE_ITEM PRIVATE_HEADERS PUBLIC_HEADERS)
+file(GLOB_RECURSE SRCS            "libscc/*.cpp")
+
+set(ANTLR_PARSER_H   ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.h   ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.h)
+set(ANTLR_PARSER_C   ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.c   ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.c)
+set(ANTLR_PARSER_CPP ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.cpp ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.cpp)
+
+set(ANTLR_GRAMMAR ${CMAKE_CURRENT_SOURCE_DIR}/libscc/SCPs.g)
+
+source_group(public_h  FILES ${PUBLIC_HEADERS})
+source_group(private_h FILES ${PRIVATE_HEADERS} ${ANTLR_PARSER_H})
+source_group(src       FILES ${SRCS} ${ANTLR_PARSER_CPP} ${ANTLR_GRAMMAR})
+
+add_custom_command(
+	OUTPUT ${ANTLR_PARSER_H} ${ANTLR_PARSER_C}
+	COMMAND java
+	ARGS -jar ${ANTLR_BINARY} ${ANTLR_GRAMMAR} -o ${CMAKE_CURRENT_BINARY_DIR}
+	DEPENDS ${ANTLR_GRAMMAR}
+)
+
+ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.cpp
+	COMMAND ${CMAKE_COMMAND}
+	ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.c ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.cpp
+	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/SCPsLexer.c
+)
+
+ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.cpp
+	COMMAND ${CMAKE_COMMAND}
+	ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.c ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.cpp
+	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/SCPsParser.c
+)
+
+find_package(Threads)
+
+set(Boost_USE_STATIC_LIBS OFF)
+add_definitions(-DBOOST_ALL_NO_LIB -DBOOST_ALL_DYN_LINK)
+find_package(Boost COMPONENTS system filesystem REQUIRED)
+
+use_precompiled_header(SRCS "libscc/precompiled_p.h" "libscc/precompiled_p.cpp")
+
+include_directories(
+	${LIBTGF_INCLUDE_DIR}
+	${LIBSYS_INCLUDE_DIR}
+	${LIBSC_INCLUDE_DIR}
+	${LIBPM_INCLUDE_DIR}
+	${Boost_INCLUDE_DIRS}
+	${LIBANTLR3C_INCLUDE_DIR}
+	${LIBB64_INCLUDE_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}
+)
+add_library(libscc SHARED ${PRIVATE_HEADERS} ${PUBLIC_HEADERS} ${SRCS} ${ANTLR_PARSER_CPP} ${ANTLR_GRAMMAR})
+target_link_libraries(libscc libtgf libsc libsys libpm antlr3c b64 ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+
+if(WIN32)
+	add_definitions(-D_WIN32_WINNT=0x0501)
+endif()
+
+set_target_name(scc)
+install_target_new(libscc)
+
+set(LIBSCC_DIR         ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+set(LIBSCC_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+set(LIBSCC_BINARY_DIR  ${CMAKE_CURRENT_BINARY_DIR} PARENT_SCOPE)

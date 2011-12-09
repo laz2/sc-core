@@ -1,0 +1,14 @@
+
+#include "scp_keynodes.scsy"
+
+@programSCP test(in_: in_param, out_: out_param, in_: out_: in_out_param)
+{
+	var v1, v2, v3;
+label1:
+label2:
+	printNl(v1);
+	printNl(v2);
+label3:
+	printNl(v3);
+	return();
+}

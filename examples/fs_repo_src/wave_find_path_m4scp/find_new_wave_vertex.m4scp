@@ -1,0 +1,129 @@
+
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "wave_find_path_keynodes.scsy"
+
+//
+// Процедура поиска вершины для создаваемой волны.
+// Смотреть "Оператор S8"
+//
+// @author Dmitry Lazurkin
+//
+procedure(find_new_wave_vertex,
+[[
+	edge_; vertex_;
+]], 
+[{
+	arc, arc1,        // временные переменные для хранения дуг
+	element,          // временная переменная для хранения элемента
+	edge_iter_arc,    // переменная, которая хранит адрес дуги для итерации по ребрам
+	cur_edge,         // текущее ребро
+	vertex1, vertex2, // вершины, инцидентные ребру
+	edges,            // множество ребер графа
+	graph, last_wave, not_checked_vertexes, n, a // параметры процедуры
+}], 
+{[
+	1_:  in_: graph,                // _Gi
+	2_:  in_: last_wave,            // _последняя волна
+	3_:  in_: not_checked_vertexes, // _непросмотренные вершины
+	4_: out_: n,                    // _n
+	5_: out_: a                     // _a
+]})
+
+// Формируем множество ребер
+searchSetStr5([
+    1_:  fixed_: graph,
+    2_: assign_: const_: pos_: arc,
+    3_: assign_: element,
+	4_: assign_: const_: pos_: arc1,
+	5_:  fixed_: edge_,
+    set3_: assign_: edges
+],, return_label)
+
+// Производим итерацию по ребрам
+label(iter_next_edge)
+searchElStr3([
+    1_:  fixed_: edges,
+    2_: assign_: edge_iter_arc,
+    3_: assign_: cur_edge
+],, iter_end_edge)
+
+// Получаем вершины, инцидентные ребру
+callReturn([
+	1_: fixed_: get_edge_vertexes, 
+	2_: {[
+		1_: cur_edge,
+		2_: vertex1,
+		3_: vertex2
+	]}
+])
+
+// Проверяем vertex1 на вхождение в последнюю волну
+searchElStr3([
+    1_:  fixed_: last_wave,
+    2_: assign_: arc,
+    3_:  fixed_: vertex1
+],, vertex1_not_in_last_wave)
+
+// Проверяем vertex2 на вхождение в множество непросмотренных вершин
+searchElStr3([
+    1_:  fixed_: not_checked_vertexes,
+    2_: assign_: arc,
+    3_:  fixed_: vertex2
+],, erase_edge_iter_arc)
+
+// Нужное ребро найдено
+varAssign([1_: a, 2_: arc])
+varAssign([1_: n, 2_: vertex2], iter_end_edge)
+
+label(vertex1_not_in_last_wave)
+// Проверяем vertex2 на вхождение в последнюю волну
+searchElStr3([
+    1_:  fixed_: last_wave,
+    2_: assign_: arc,
+    3_:  fixed_: vertex2
+],, erase_edge_iter_arc)
+
+// Проверяем vertex1 на вхождение в множество непросмотренных вершин
+searchElStr3([
+    1_:  fixed_: not_checked_vertexes,
+    2_: assign_: arc,
+    3_:  fixed_: vertex1
+],, erase_edge_iter_arc)
+
+// Нужное ребро найдено
+varAssign([1_: a, 2_: arc])
+varAssign([1_: n, 2_: vertex1], iter_end_edge)
+
+label(erase_edge_iter_arc)
+eraseEl([1_: fixed_: f_: edge_iter_arc], iter_next_edge, iter_next_edge)
+
+label(iter_end_edge)
+// удаляем из памяти множество ребер
+eraseEl([1_: fixed_: f_: edges])
+
+label(return_label)
+return()
+
+end

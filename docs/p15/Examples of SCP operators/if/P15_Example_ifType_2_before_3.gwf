@@ -1,0 +1,31 @@
+<?xml version="1.0"  encoding="windows-1251"?>
+
+<GWF version="1.6">
+<staticSector>
+<node type="node/const/general_node" x="94" y="31.5" idtf="var1" id="172669864" shapeColor="16728128" left="101" top="28.6406" right="136.544" bottom="48.3594" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="168429572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/relation" x="160" y="83.5" idtf="значение*" id="172672216" shapeColor="16728128" left="167" top="80.6406" right="245.982" bottom="100.359" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="168429572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="48" y="149" idtf="v1" id="172671824" shapeColor="16728128" left="55" top="146.141" right="75.888" bottom="165.859" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="168429572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<node type="node/const/general_node" x="162" y="149" idtf="v2" id="172672608" shapeColor="16728128" left="169" top="146.141" right="189.888" bottom="165.859" textColor="8421631" text_angle="0" text_font="Times New Roman" font_size="12" show_content="false" parent="168429572" haveBus="false">
+<content type="0" mime_type="content/base" file_name="">
+</content>
+</node>
+<arc type="arc/var/pos" idtf="" id_b="172671824" id_e="172672608" id="172814728" parent="168429572" shapeColor="16744576" b_x="55" b_y="149" e_x="155" e_y="149" dotBBalance="0" dotEBalance="0">
+<points/>
+</arc>
+<pair type="pair/const/orient" idtf="" id_b="172669864" id_e="172814728" id="172815104" parent="168429572" shapeColor="16744576" b_x="94.0603" b_y="38.4997" e_x="95.0125" e_y="149" dotBBalance="0" dotEBalance="0.400125">
+<points/>
+</pair>
+<arc type="arc/const/pos" idtf="" id_b="172672216" id_e="172815104" id="172815480" parent="168429572" shapeColor="16744576" b_x="153" b_y="83.4509" e_x="94.4441" e_y="83.0406" dotBBalance="0" dotEBalance="0.403084">
+<points/>
+</arc>
+</staticSector>
+</GWF>

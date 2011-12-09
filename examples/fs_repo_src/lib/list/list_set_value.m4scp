@@ -1,0 +1,65 @@
+/*
+-----------------------------------------------------------------------------
+This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+For the latest info, see http://www.ostis.net
+
+Copyright (c) 2010 OSTIS
+
+OSTIS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+OSTIS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+-----------------------------------------------------------------------------
+*/
+
+#include "scp_keynodes.scsy"
+#include "list_keynodes.scsy"
+
+//
+// Устанавливает значение для элемента двусвязного списка 
+// @author Dmitry Lazurkin
+//
+procedure(list_set_value,
+[[
+	list_value_;
+]],
+[{
+	arc2, arc4, elt3,
+	l, v
+}],
+{[
+	1_:  in_: l,
+	2_:  in_: v
+]})
+
+searchElStr5([
+    1_:  fixed_: l,
+    2_: assign_: arc_: pos_: const_: arc2,
+    3_: assign_: elt3,
+    4_: assign_: arc_: pos_: const_: arc4,
+    5_:  fixed_: list_value_
+],, no_value)
+
+eraseEl([1_: f_: arc2])
+
+label(no_value)
+
+genElStr5([
+    1_:  fixed_: l,
+    2_: assign_: arc_: pos_: const_: arc2,
+    3_:  fixed_: v,
+    4_: assign_: arc_: pos_: const_: arc4,
+    5_:  fixed_: list_value_
+])
+
+return()
+
+end
