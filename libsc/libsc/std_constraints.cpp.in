@@ -21,12 +21,13 @@ along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
 -----------------------------------------------------------------------------
 */
 
+#include <stdlib.h>
+
 #include <libsc/std_constraints.h>
 #include <libsc/sc_constraint.h>
 #include <libsc/sc_types.h>
-#include <stdlib.h>
-#include <abort.h>
-#include "custom_iters.h"
+#include <libsc/abort.h>
+#include <libsc/custom_iters_p.h>
 
 sc_uint
 	__constr_all_input,

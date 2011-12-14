@@ -10,6 +10,7 @@ my ($debug_parser) = "";
 my ($filename);
 
 if (!@ARGV) {
+	print $ARGV[0];
 	print "Constraint code generator\n";
 	exit 0;
 }
@@ -295,7 +296,7 @@ while (not is_lex_end()) {
 
 # writer section
 
-$output_c = $directory . $output_c unless ( $output_c =~ /^\//);
+$output_c = $output_c unless ( $output_c =~ /^\//);
 #print "opening $output_c\n";
 
 open OUTPUT, ">$output_c" || die "cannot open $output_c for write";
