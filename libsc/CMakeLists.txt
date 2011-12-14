@@ -13,12 +13,26 @@ file(GLOB_RECURSE PUBLIC_HEADERS  "libsc/*[^_p].h")
 file(GLOB_RECURSE PRIVATE_HEADERS "libsc/*_p.h")
 file(GLOB_RECURSE SRCS            "libsc/*.cpp")
 
+set(STD_CONSTRAINTS_IN_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/libsc/std_constraints.cpp.in)
+set(STD_CONSTRAINTS_SOURCE    ${CMAKE_CURRENT_BINARY_DIR}/std_constraints.cpp)
+
 source_group(public_h  FILES ${PUBLIC_HEADERS})
 source_group(private_h FILES ${PRIVATE_HEADERS})
-source_group(src       FILES ${SRCS})
+source_group(src       FILES ${SRCS} ${STD_CONSTRAINTS_IN_SOURCE} ${STD_CONSTRAINTS_SOURCE})
+
+find_package(Perl REQUIRED)
+
+add_custom_command(
+	OUTPUT ${STD_CONSTRAINTS_SOURCE}
+	COMMAND ${PERL_EXECUTABLE}
+	ARGS "${CMAKE_CURRENT_SOURCE_DIR}/utils/gen_constr.pl" ${STD_CONSTRAINTS_IN_SOURCE}
+	DEPENDS ${STD_CONSTRAINTS_IN_SOURCE}
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	COMMENT "Generating std_constraints.cpp."
+)
 
 use_precompiled_header(SRCS "libsc/precompiled_p.h" "libsc/precompiled_p.cpp")
-add_library(libsc SHARED ${SRCS} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS})
+add_library(libsc SHARED ${SRCS} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${STD_CONSTRAINTS_IN_SOURCE} ${STD_CONSTRAINTS_SOURCE})
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL Windows)
 	target_link_libraries(libsc rpcrt4)
