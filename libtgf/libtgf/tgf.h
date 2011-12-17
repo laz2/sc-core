@@ -29,6 +29,7 @@ along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
  *
  *  Created at Thu 03 May 2001 12:53:17 AM EEST by ALK
  *
+ *  Temporality support was added at Mon 12 Dec 2011 by IVP (TGF 3.2)
  */
 #ifndef __TGF_H__
 #define __TGF_H__
@@ -82,12 +83,17 @@ along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
 
 __TGF_BEGIN_DECL
 
+//#define _NOTEMPORALITY
+
 /* TGF format version */
 
 #define	TGF_MAJOR_VER	3
 /* yet minor ver is 1, not 3 */
+#ifndef _NOTEMPORALITY
+#define	TGF_MINOR_VER	2
+#else
 #define	TGF_MINOR_VER	1
-
+#endif//_NOTEMPORALITY
 /* TGF error codes section */
 
 /* OK. Not actually error */
@@ -138,48 +144,60 @@ typedef unsigned char tgf_sc_type;
  * @name Syntactic types of tgf-element.
  * @{
  */
-#define TGF_UNDF            0x01 /* 0000 0001 */
-#define TGF_NODE            0x02 /* 0000 0010 */
-#define TGF_EDGE            0x03 /* 0000 0011 */
-#define TGF_ARC             0x04 /* 0000 0100 */
-#define TGF_ARC_ACCESSORY   0x05 /* 0000 0101 */
-#define TGF_LINK            0x06 /* 0000 0110 */
+#define TGF_UNDF            0x30 /* 0x01 0000 0001 */ /* 0x30 0011 0000 */
+#define TGF_NODE            0x20 /* 0x02 0000 0010 */ /* 0x20 0010 0000 */
+#define TGF_EDGE            0x00 /* 0x03 0000 0011 */ /* 0x00 0000 0000 */
+#define TGF_ARC             0x10 /* 0x04 0000 0100 */ /* 0x10 0001 0000 */
+#define TGF_ARC_ACCESSORY   0x14 /* 0x05 0000 0101 */ /* 0x14 0001 0100 */
+#define TGF_LINK            0x24 /* 0x06 0000 0110 */ /* 0x30 0011 0000 */
 
 #define TGF_SYNTACTIC_MASK  (TGF_UNDF|TGF_NODE|TGF_EDGE|TGF_ARC|TGF_ARC_ACCESSORY|TGF_LINK)
-#define TGF_SYNTACTIC_SHIFT 0
+#define TGF_SYNTACTIC_SHIFT 2
 /** @} */
 
 /**
  * @name Constancy types of tgf-element.
  * @{
  */
-#define TGF_CONST           0x08 /* 0000 1000 */
-#define TGF_VAR             0x10 /* 0001 0000 */
-#define TGF_METAVAR         0x18 /* 0001 1000 */
+#define TGF_CONST           0x01 /* 0x08 0000 1000 */ /* 0x01 0000 0001 */
+#define TGF_VAR             0x02 /* 0x10 0001 0000 */ /* 0x02 0000 0010 */
+#define TGF_METAVAR         0x03 /* 0x18 0001 1000 */ /* 0x03 0000 0011 */
 
 #define TGF_CONSTANCY_MASK  (TGF_CONST|TGF_VAR|TGF_METAVAR)
-#define TGF_CONSTANCY_SHIFT 3
+#define TGF_CONSTANCY_SHIFT 0
 /** @} */
 
 /**
  * @name Fuzzyness types of tgf-arc accessory.
  * @{
  */
-#define TGF_POS             0x20 /* 0010 0000 */
-#define TGF_NEG             0x40 /* 0100 0000 */
+#define TGF_POS             0x04 /* 0x20 0010 0000 */ /* 0x14 0000 0100 */
+#define TGF_NEG             0x08 /* 0x40 0100 0000 */ /* 0x18 0000 1000 */
+#define TGF_FUZ		    0x0C /* 0x60	   */ /* 0x1C 0000 1100 */
 
-#define TGF_FUZZYNESS_MASK  (TGF_POS|TGF_NEG)
-#define TGF_FUZZYNESS_SHIFT 5
+#define TGF_FUZZYNESS_MASK  (TGF_POS|TGF_NEG|TGF_FUZ)
+#define TGF_FUZZYNESS_SHIFT 2
 /** @} */
 
 /**
  * @name Permanency types of tgf-arc accessory.
  * @{
  */
-#define TGF_TEMPORARY        0x80 /* 1000 0000 */
+#ifndef _NOTEMPORALITY
 
-#define TGF_PERMANENCY_MASK  TGF_TEMPORARY
+
+#define TGF_TEMPORARY       0x00 /* 0x80 1000 0000 */ /* 0x10 0001 0000 */
+#define TGF_PERMANENT       0x80		      /* 0x90 1001 0000 */
+#else
+
+
+#define TGF_TEMPORARY       0x00 /* 0x80 1000 0000 */ /* 0x10 0001 0000 */
+#define TGF_PERMANENT       0x00		      /* 0x90 1001 0000 */
+#endif//_NOTEMPORALITY
+#define TGF_PERMANENCY_MASK  (TGF_TEMPORARY|TGF_PERMANENT)
 #define TGF_PERMANENCY_SHIFT 7
+
+
 /** @} */
 
 /**
@@ -357,7 +375,7 @@ int	__tgf_write_fn(void *fd,char *,int size);
 static INLINE
 void	tgf_update_crc(int *crc,const void *buf,int size)
 {
-	const unsigned char *p=buf;
+	const unsigned char *p=(const unsigned char *)buf;
 	int i;
 	unsigned char _crc=*crc; /* see comment before */
 	for (i=size;i>0;i--)
