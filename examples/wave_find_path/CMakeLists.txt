@@ -28,9 +28,6 @@ endif()
 
 set(EXAMPLE_LIB_DIR "../../lib")
 set(EXAMPLE_INCLUDE_DIR "../../include")
-set(EXAMPLE_LIBSC_INCLUDE_DIR "${EXAMPLE_INCLUDE_DIR}/libsc")
-set(EXAMPLE_LIBTGF_INCLUDE_DIR "${EXAMPLE_INCLUDE_DIR}/libtgf")
-set(EXAMPLE_LIBSYS_INCLUDE_DIR "${EXAMPLE_INCLUDE_DIR}/libsys")
 configure_file(CMakeLists.txt.in ${CMAKE_CURRENT_BINARY_DIR}/CMakeLists.txt @ONLY)
 
 file(GLOB files ${CMAKE_CURRENT_BINARY_DIR}/wave)  

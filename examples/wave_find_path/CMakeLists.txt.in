@@ -3,14 +3,12 @@ project(wave_find_path)
 
 cmake_minimum_required(VERSION 2.6)
 
-set(SRCS
-    wave_find_path.cpp
-)
+set(SRCS wave_find_path.cpp)
 
-find_library(libSC "libSC" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
-find_library(libSCd "libSCd" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
+find_library(libsc "libsc" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
+find_library(libscd "libscd" PATHS_SUFFIXES "@EXAMPLE_LIB_DIR@")
 
-include_directories("@EXAMPLE_LIBSC_INCLUDE_DIR@" "@EXAMPLE_LIBTGF_INCLUDE_DIR@" "@EXAMPLE_LIBSYS_INCLUDE_DIR@")
+include_directories("@EXAMPLE_INCLUDE_DIR@")
 add_executable(wave_find_path ${SRCS})
 target_link_libraries(wave_find_path debug ${libSCd})
 target_link_libraries(wave_find_path optimized ${libSC})
