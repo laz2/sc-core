@@ -18,19 +18,22 @@ module SCg
   class Element
     attr_reader :sign
     attr_reader :parents
-    attr_reader :childs
+    attr_reader :children
     attr_reader :sys_id
+    attr_reader :shape_color
 
     def initialize(sign)
       @sign = sign
       @parents = []
-      @childs = []
+      @children = []
+      @shape_color = 0
 
       sign.add_view self
     end
 
     def read_state(tag, refs)
       @sys_id = tag.attributes['id'].to_i
+      @shape_color = tag.attributes['shapeColor']
       add_needed_ref refs, tag, 'parent'
     end
 
@@ -38,7 +41,7 @@ module SCg
       parent = refs['parent']
       if parent
         @parents << parent
-        parent.childs << self
+        parent.children << self
       end
     end
 
@@ -48,20 +51,31 @@ module SCg
 
     private
     def add_needed_ref(refs, tag, name)
-      refs[name] = tag.attributes[name].to_i
+      id = tag.attributes[name].to_i
+      refs[name] = id if id != 0
     end
   end
 
   class Node < Element
+    attr_reader :x
+    attr_reader :y
+    attr_reader :constancy
+    attr_reader :structure
+
     def read_state(tag, refs)
       super
 
-      @type = tag.attributes['type']
+      comps = tag.attributes['type'].split '/'
+      @constancy = comps[1]
+      @structure = comps[2]
+
+      @x = tag.attributes['x'].to_f
+      @y = tag.attributes['y'].to_f
     end
 
     protected
     def to_s_impl
-      "#@type"
+      "#@type, x=#@x, y=#@y"
     end
   end
 
@@ -103,7 +117,7 @@ module SCg
       super
 
       @begin = refs['id_b']
-      @end   = refs['id_e']
+      @end = refs['id_e']
     end
 
     def to_s_impl
@@ -129,7 +143,7 @@ module SCg
 
     def load_gwf(input)
       el2needed_refs = {}
-      id2el          = {}
+      id2el = {}
 
       doc = REXML::Document.new(input)
       doc.root.elements['staticSector'].elements.each do |tag|
@@ -143,7 +157,7 @@ module SCg
         el.read_state tag, needed_refs
 
         el2needed_refs[el] = needed_refs
-        id2el[el.sys_id]   = el
+        id2el[el.sys_id] = el
 
         @elements << el
       end
@@ -172,3 +186,4 @@ module SCg
     end
   end
 end
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<GWF version="1.6">
+    <staticSector>
+        <node type="node/const/not_define" idtf="" shapeColor="#000000" id="29684920" parent="0" x="319.5" y="265.5" haveBus="false">
+            <content type="4" mime_type="image/png" file_name="image_content.png"><![CDATA[iVBORw0KGgoAAAANSUhEUgAAAEgAAAAbCAIAAABQlV5JAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT9JREFUWEftVtsNwyAMpNtlIMZhF0bJKKmvNmBBSBtEhJrAFwL8ON/ZyWvbNnPLRcBuucwtUUGGE9ifVWAy9meEPa7HVrcsbmWW9D7jja8OHnTkOY/yJWqlx54GjPDKX4r1icxQhXgbyc4JU/Xy1hh2oiSRe8B7axHT+mALQ1o4r8apf8cSAvbykaVKS7ZaijDhTCl0LWR04SktSSyelR5wElzxs+hbX+0J/oQUM7BAoYFRSGEAyMK2whnhQpJIOpWr9FB0hE+936/HdjydB8Y4KD8gBzKV6ihgyCkwIYo4LUURNHUOREvmllpFjd9MzAVjl0iRM/lleBxLUnVH3ijRfzFWUofLm8bh0en7422t1zoFqLu59F9xdY4H+oB1KbABeGLICWxk9VtiT8ZaqjbSZjI2svotsSdjLVUbafMGMNt70qndr5oAAAAASUVORK5CYII=]]></content>
+        </node>
+        <node type="node/const/not_define" idtf="" shapeColor="#000000" id="29685464" parent="0" x="188.5" y="259.5" haveBus="false">
+            <content type="4" mime_type="image/png" file_name="image_content.png"><![CDATA[iVBORw0KGgoAAAANSUhEUgAAAEgAAAAbCAIAAABQlV5JAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAT9JREFUWEftVtsNwyAMpNtlIMZhF0bJKKmvNmBBSBtEhJrAFwL8ON/ZyWvbNnPLRcBuucwtUUGGE9ifVWAy9meEPa7HVrcsbmWW9D7jja8OHnTkOY/yJWqlx54GjPDKX4r1icxQhXgbyc4JU/Xy1hh2oiSRe8B7axHT+mALQ1o4r8apf8cSAvbykaVKS7ZaijDhTCl0LWR04SktSSyelR5wElzxs+hbX+0J/oQUM7BAoYFRSGEAyMK2whnhQpJIOpWr9FB0hE+936/HdjydB8Y4KD8gBzKV6ihgyCkwIYo4LUURNHUOREvmllpFjd9MzAVjl0iRM/lleBxLUnVH3ijRfzFWUofLm8bh0en7422t1zoFqLu59F9xdY4H+oB1KbABeGLICWxk9VtiT8ZaqjbSZjI2svotsSdjLVUbafMGMNt70qndr5oAAAAASUVORK5CYII=]]></content>
+        </node>
+        <node type="node/const/not_define" idtf="" shapeColor="#000000" id="29597408" parent="0" x="187" y="166" haveBus="false">
+            <content type="1" mime_type="content/term" file_name=""><![CDATA[Hello, world]]></content>
+        </node>
+        <node type="node/const/not_define" idtf="" shapeColor="#000000" id="12908200" parent="0" x="316.5" y="170.5" haveBus="false">
+            <content type="1" mime_type="content/term" file_name=""><![CDATA[Hello, world]]></content>
+        </node>
+        <node type="node/const/not_define" idtf="" shapeColor="#000000" id="29798776" parent="0" x="299.5" y="61.5" haveBus="false">
+            <content type="3" mime_type="content/term" file_name=""><![CDATA[1]]></content>
+        </node>
+        <node type="node/const/not_define" idtf="" shapeColor="#000000" id="12777288" parent="0" x="185" y="62" haveBus="false">
+            <content type="3" mime_type="content/term" file_name=""><![CDATA[1]]></content>
+        </node>
+    </staticSector>
+</GWF>
