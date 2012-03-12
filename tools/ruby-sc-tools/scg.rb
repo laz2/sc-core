@@ -104,6 +104,9 @@ module SCg
   end
 
   class Pair < Element
+    attr_reader :begin
+    attr_reader :end
+
     def read_state(tag, refs)
       super
 
