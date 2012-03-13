@@ -19,20 +19,19 @@ Required software:
 	- Boost
 		http://www.boost.org/users/download/
 
-= Install RMagick ruby gem under Windows =
+h3. Install RMagick ruby gem under Windows
 
-1. Install Ruby => c:\Ruby193 
-2. Install DevKit => c:\DevKit
-3. Install ImageMagick library with C++ headers => c:\ImageMagick-6.7.5-Q8
-4. Run cmd and set enviroment variables:
-	set PATH=c:\Ruby193\bin;c:\ImageMagick-6.7.5-Q8
-	set CPATH=c:\ImageMagick-6.7.5-Q8\include
-	set LIBRARY_PATH=c:\ImageMagick-6.7.5-Q8\lib
-5. Configure Devkit:
+* Install Ruby => c:\Ruby193 
+* Install DevKit => c:\DevKit
+* Install ImageMagick dlls with C++ headers => c:\ImageMagick-6.7.6-Q8
+* Run cmd and set enviroment variables:
+	set PATH=c:\Ruby193\bin;c:\ImageMagick-6.7.6-Q8
+	set CPATH=c:\ImageMagick-6.7.6-Q8\include
+	set LIBRARY_PATH=c:\ImageMagick-6.7.6-Q8\lib
+* Configure Devkit:
 	cd c:\DevKit
 	ruby dk.rb init
 	ruby dk.rb install
 	devkitvars.bat
-	msys.bat
-6. Install RMagick:
+* Install RMagick:
 	gem install rmagick
