@@ -1,0 +1,58 @@
+/*
+ * This is machine generated file don't edit it by hand !
+ */
+<%= SCConstrCompiler.header %>
+
+sc_uint
+<% SCConstrCompiler.constraints.values.each_with_index do |constr, i| %>
+    <%= constr.name %><%= SCConstrCompiler.constraints.size == i + 1 ? ';' : ',' %>
+<% end %>
+
+<% SCConstrCompiler.constraints.each_value do |constr| %>
+//
+<% constr.to_s.each_line do |line| %>// <%= line %><% end %>
+
+//
+static sc_param_spec <%= constr.name %>_ispec[] = {
+    <%= helper.ary_to_s_with_params constr, constr.params.map { |p| TYPE_MAPPING[p.type] } %>
+};
+static int <%= constr.name %>_fix[] = {
+    <%= helper.ary_to_s_with_params constr, constr.params.select(&:fixed).map { |p| constr.var2index[p.name] - 1 } %>
+};
+static struct sc_constraint_info <%= constr.name %> = {
+    0,
+    "<%= constr.name %>",
+    <%= constr.params.size %>,
+    <%= constr.name %>_ispec,
+    <%= constr.params.count &:fixed %>,
+    <%= constr.name %>_fix
+};
+
+<% unless constr.code.empty? %>
+<%  constr.code.each_with_index do |instr, i| %>
+static int dec_<%= constr.name %>_prg_i<%= i %>_i[] = {
+    <%= helper.instr_params_to_s_with_vars constr, instr.input %>
+};
+<% unless instr.output.empty? %>
+static int dec_<%= constr.name %>_prg_i<%= i %>_o[] = {
+    <%= helper.instr_params_to_s_with_vars constr, instr.output %>
+};
+<% end %>
+<% end %>
+
+static struct sc_deconstruct_prg_item dec_<%= constr.name %>_prg[] = {
+<% constr.code.each_with_index do |instr, i| %>
+    { // <%= instr.to_s %>
+        <%= INSTR_MAPPING[instr.class] %>,
+        <%= instr.input.size %>,
+        dec_<%= constr.name %>_prg_i<%= i %>_i,
+        <%= instr.output.size %>,
+        <%= instr.output.empty? ? 0 : "dec_#{constr.name}_prg_i#{i}_o" %>,
+        <%= instr.class == SCConstrCompiler::Constraint::ReturnInstr ? 0 : "\"#{instr.name}\"" %>
+    }<%= ',' unless i + 1 == constr.code.size %>
+<% end %>
+};
+<% end %>
+<% end %>
+    
+<%= SCConstrCompiler.footer %>

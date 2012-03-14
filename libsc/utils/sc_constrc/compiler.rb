@@ -1,3 +1,23 @@
+#--
+# This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+# For the latest info, see http://www.ostis.net
+#
+# Copyright (c) 2012 OSTIS
+#
+# OSTIS is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# OSTIS is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+#++
+
 require 'set'
 require 'stringio'
 
@@ -5,40 +25,38 @@ def ary_to_s(ary)
   ary.join ', '
 end
 
-module SCConstraintCompiler
+# Contains sc-constraints compiler model and logic.
+#
+# Author:: Dmitry Lazurkin
+module SCConstrCompiler
   PARAM_TYPES = Set[:sc_type, :sc_addr, :sc_addr_0, :sc_segment, :sc_boolean]
 
   @constraints = {}
   @filters = {}
   @functions = {}
 
-  def self.constraints
-    @constraints
+  class << self
+    attr_accessor :header
+    attr_reader :constraints
+    attr_reader :filters
+    attr_reader :functions
+    attr_accessor :footer
   end
 
   def self.valid_name?(name)
     name.is_a?(Symbol) || name.is_a?(String)
   end
 
-  def self.assert_valid_name!(name, type)
-    raise "'#{name}' is invalid #{type} name." unless valid_name? name
+  def self.def_assert_obj_name(type_short, type_long)
+    define_singleton_method "assert_#{type_short}_name!" do |name|
+      raise "'#{name}' is invalid #{type_long} name." unless valid_name? name
+    end
   end
 
-  def self.assert_var_name!(name)
-    assert_valid_name! name, 'variable'
-  end
-
-  def self.assert_constr_name!(name)
-    assert_valid_name! name, 'constraint'
-  end
-
-  def self.assert_func_name!(name)
-    assert_valid_name! name, 'function'
-  end
-
-  def self.assert_filter_name!(name)
-    assert_valid_name! name, 'filter'
-  end
+  def_assert_obj_name :var, 'variable'
+  def_assert_obj_name :constr, 'constraint'
+  def_assert_obj_name :func, 'function'
+  def_assert_obj_name :filter, 'filter'
 
   class Constraint
     attr_reader :name
@@ -46,7 +64,6 @@ module SCConstraintCompiler
     attr_reader :vars
     attr_reader :var2index
     attr_reader :code # array of instructions
-    attr_reader :return_with # array of variables
 
     # Parameter is pair of type symbol and name symbol.
     class Param
@@ -66,14 +83,22 @@ module SCConstraintCompiler
     end
 
     class InputOutputInstr
+      attr_reader :parent
       attr_reader :name
       attr_reader :input
       attr_reader :output
 
-      def initialize(name, input, output)
+      # For input only instructions parameter output must be empty array.
+      def initialize(parent, name, input, output)
+        @parent = parent
         @name = name
         @input = input
         @output = output
+      end
+
+      def validate!
+        @input.each { |n| @parent.assert_var! n }
+        @output.each { |n| @parent.assert_var! n }
       end
     end
 
@@ -90,8 +115,22 @@ module SCConstraintCompiler
     end
 
     class FilterInstr < InputOutputInstr
+      def initialize(parent, name, input)
+        super parent, name, input, []
+      end
+
       def to_s
         "filter #@name #{ary_to_s(@input)}"
+      end
+    end
+
+    class ReturnInstr < InputOutputInstr
+      def initialize(parent, input)
+        super parent, nil, input, []
+      end
+
+      def to_s
+        "return #{ary_to_s @input}"
       end
     end
 
@@ -101,64 +140,71 @@ module SCConstraintCompiler
       @vars = []
       @var2index = {}
       @code = []
-      @return_with = []
 
-      var :_
-      var *@params.map { |p| p.name }
+      add_var :_
+      @params.each { |p| add_var p.name }
     end
 
-    def var(*names)
-      names.each do |name|
-        SCConstraintCompiler.assert_var_name! name
-        raise "Variable '#{name}' is already defined." if @vars.member? name
+    def add_var(name)
+      SCConstrCompiler.assert_var_name! name
+      raise "Variable '#{name}' is already defined." if @vars.member? name
 
-        instance_variable_set '@' + name.to_s, name
-        @vars << name
-        @var2index[name] = @vars.size - 1
-      end
+      @vars << name
+      @var2index[name] = @vars.size - 1
     end
 
-    def constr(name, params)
-      c = SCConstraintCompiler.constr name
+    def add_constr_instr(name, input, output)
+      c = SCConstrCompiler.constr name
 
       raise "Constraint '#{c}' doesn't exist." unless c
-      raise "Size of parameters hash is #{params.size}. Must be 1." if params.size != 1
 
-      pair = params.first
-      i = ConstrInstr.new name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
+      i = ConstrInstr.new self, name, input, output
+      i.validate!
       @code << i
     end
 
-    def func(name, params)
-      f = SCConstraintCompiler.func name
+    def add_func_instr(name, params)
+      f = SCConstrCompiler.func name
 
       raise "Function '#{f}' doesn't exist." unless f
       raise "Size of parameters hash is #{params.size}. Must be 1." if params.size != 1
 
       pair = params.first
-      i = FuncInstr.new name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
+      i = FuncInstr.new self, name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
+      i.validate!
+
       @code << i
     end
 
-    def filter(name, *params)
-      f = SCConstraintCompiler.filter name
+    def add_filter_instr(name, params)
+      f = SCConstrCompiler.filter name
 
       raise "Filter '#{f}' doesn't exist." unless f
 
-      pair = params.first
-      i = FilterInstr.new name, params, []
+      i = FilterInstr.new self, name, params
+      i.validate!
+
       @code << i
     end
 
-    def return_with(*vars)
-      vars.each do |name|
-        assert_var! name
-        @return_with << name
-      end
+    def add_return_instr(vars)
+      i = ReturnInstr.new self, vars
+      i.validate!
+
+      @code << i
+    end
+
+    def declr_only?
+      @code.size == 0
     end
 
     def var?(name)
       @vars.member? name
+    end
+
+    def assert_var!(name)
+      SCConstrCompiler.assert_var_name! name
+      raise "Variable '#{name}' doesn't exist." unless var? name
     end
 
     def to_s
@@ -167,8 +213,7 @@ module SCConstraintCompiler
 
       unless @code.empty?
         s << "\n{\n"
-        @code.each { |i| s << "\t" << i << "\n" }
-        s << "\t" << 'return ' << ary_to_s(@return_with) << "\n"
+        @code.each { |i| s << '    ' << i << "\n" }
         s << '}'
       end
 
@@ -177,21 +222,6 @@ module SCConstraintCompiler
 
     def inspect
       "constraint(#{name})"
-    end
-
-    private
-
-    def assert_var!(name)
-      SCConstraintCompiler.assert_var_name! name
-      raise "Variable '#{name}' doesn't exist'" unless var? name
-    end
-
-    def alone_sym_to_ary(obj)
-      if obj.is_a? Symbol
-        [obj]
-      else
-        obj
-      end
     end
   end
 
@@ -233,12 +263,6 @@ module SCConstraintCompiler
 
     constr = Constraint.new name, params
     @constraints[name] = constr
-
-    if body
-      constr.instance_eval &body
-    else
-
-    end
 
     constr
   end
