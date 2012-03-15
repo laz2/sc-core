@@ -48,7 +48,7 @@ static struct sc_deconstruct_prg_item dec_<%= constr.name %>_prg[] = {
         dec_<%= constr.name %>_prg_i<%= i %>_i,
         <%= instr.output.size %>,
         <%= instr.output.empty? ? 0 : "dec_#{constr.name}_prg_i#{i}_o" %>,
-        <%= instr.class == SCConstrCompiler::Constraint::ReturnInstr ? 0 : "\"#{instr.name}\"" %>
+        <%= instr.class == SCConstrCompiler::Constraint::ReturnInstr ? 0 : "\"#{instr.obj.name}\"" %>
     }<%= ',' unless i + 1 == constr.code.size %>
 <% end %>
 };

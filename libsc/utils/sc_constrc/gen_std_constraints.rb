@@ -598,22 +598,22 @@ sc_retval  func_get_0(sc_param *regs,int cnt,int input[],int output)
 }
 
 
-#define REGISTER_CONSTRAINT(place,constraint,dec) \
-  do { \
-    constraint.deconstruct = &dec; \
-    if (sc_constraint_register(&constraint)) \
-      SC_ABORT(); \
-    place = constraint.id; \
+#define REGISTER_CONSTRAINT(place,constraint,dec) \\
+  do { \\
+    constraint.deconstruct = &dec; \\
+    if (sc_constraint_register(&constraint)) \\
+      SC_ABORT(); \\
+    place = constraint.id; \\
   } while(0)
-#define REGISTER_FUNC(func) \
-  do {\
-    if (sc_constraint_register_function(&func)) \
-      SC_ABORT(); \
+#define REGISTER_FUNC(func) \\
+  do {\\
+    if (sc_constraint_register_function(&func)) \\
+      SC_ABORT(); \\
   } while(0)
-#define REGISTER_FILT(filt) \
-  do {\
-    if (sc_constraint_register_filter(&filt)) \
-      SC_ABORT(); \
+#define REGISTER_FILT(filt) \\
+  do {\\
+    if (sc_constraint_register_filter(&filt)) \\
+      SC_ABORT(); \\
   } while(0)
 
 #define DECONSTRUCT_NIL ((*(sc_deconstruct *)(0)))

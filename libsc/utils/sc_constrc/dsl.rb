@@ -28,17 +28,17 @@ module SCConstrCompiler
     end
 
     def def_constr(name, *params, &body)
-      constr = SCConstrCompiler.def_constr name, *params
+      constr = SCConstrCompiler.def_constr name, params, caller.first
       constr_dsl = ConstraintDSL.new constr
       constr_dsl.instance_eval &body if block_given?
     end
 
     def def_filter(name)
-      SCConstrCompiler.def_filter name
+      SCConstrCompiler.def_filter name, caller.first
     end
 
     def def_func(name)
-      SCConstrCompiler.def_func name
+      SCConstrCompiler.def_func name, caller.first
     end
 
     def footer(text)
@@ -48,12 +48,12 @@ module SCConstrCompiler
     # Define DSL-methods for creating parameters of each type
     SCConstrCompiler::PARAM_TYPES.each do |type|
       define_method type do |name|
-        SCConstrCompiler::Constraint::Param.new name, type, false
+        SCConstrCompiler::Constraint::Param.new name, type, false, caller.first
       end
 
       # For fixed parameters
       define_method type.to_s + '!' do |name|
-        SCConstrCompiler::Constraint::Param.new name, type, true
+        SCConstrCompiler::Constraint::Param.new name, type, true, caller.first
       end
     end
 
@@ -65,32 +65,40 @@ module SCConstrCompiler
       end
 
       def var(*names)
+        place = caller.first
+
         names.each do |n|
-          @__constr__.add_var n
+          @__constr__.add_var n, place
           def_dsl_var n
         end
       end
 
       def constr(name, params)
-        raise "Size of parameters hash is #{params.size}. Must be 1." if params.size != 1
+        place = caller.first
+
+        SCConstrCompiler.raise_with_place! "Size of parameters hash is #{params.size}. Must be 1.",
+                                           place if params.size != 1
 
         pair = params.first
-        @__constr__.add_constr_instr name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
+        @__constr__.add_constr_instr name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1]), place
       end
 
       def func(name, params)
-        raise "Size of parameters hash is #{params.size}. Must be 1." if params.size != 1
+        place = caller.first
+
+        SCConstrCompiler.raise_with_place! "Size of parameters hash is #{params.size}. Must be 1.",
+                                           place if params.size != 1
 
         pair = params.first
-        @__constr__.add_func_instr name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
+        @__constr__.add_func_instr name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1]), place
       end
 
       def filter(name, *params)
-        @__constr__.add_filter_instr name, params
+        @__constr__.add_filter_instr name, params, caller.first
       end
 
       def return_with(*vars)
-        @__constr__.add_return_instr vars
+        @__constr__.add_return_instr vars, caller.first
       end
 
       private
