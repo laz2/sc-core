@@ -57,26 +57,27 @@ module SCConstrCompiler
     end
 
     module StructsHelper
-      def self.ary_to_s_with_params(constr, ary)
+      def self.ary_to_comma_s(ary)
         s = StringIO.new
 
         ary.each_with_index do |el, i|
-          s << el << ' /* ' << constr.vars[i + 1] << ' */'
+          yield el, i, s
           s << ', ' unless i + 1 == ary.size
         end
 
         s.string
       end
 
-      def self.instr_params_to_s_with_vars(constr, params)
-        s = StringIO.new
-
-        params.each_with_index do |el, i|
-          s << constr.var2index[el] - 1 << ' /* ' << el << ' */'
-          s << ', ' unless i + 1 == params.size
+      def self.ary_to_s_with_params(constr, ary)
+        ary_to_comma_s ary do |el, i, s|
+          s << el << ' /* ' << constr.vars[i + 1] << ' */'
         end
+      end
 
-        s.string
+      def self.instr_params_to_s_with_vars(constr, params)
+        ary_to_comma_s params do |el, i, s|
+          s << constr.var2index[el] - 1 << ' /* ' << el << ' */'
+        end
       end
     end
   end

@@ -5,7 +5,7 @@
 
 sc_uint
 <% SCConstrCompiler.constraints.values.each_with_index do |constr, i| %>
-    <%= constr.name %><%= SCConstrCompiler.constraints.size == i + 1 ? ';' : ',' %>
+    __constr_<%= constr.name %><%= SCConstrCompiler.constraints.size == i + 1 ? ';' : ',' %>
 <% end %>
 
 <% SCConstrCompiler.constraints.each_value do |constr| %>
@@ -52,7 +52,8 @@ static struct sc_deconstruct_prg_item dec_<%= constr.name %>_prg[] = {
     }<%= ',' unless i + 1 == constr.code.size %>
 <% end %>
 };
+
 <% end %>
 <% end %>
-    
+
 <%= SCConstrCompiler.footer %>

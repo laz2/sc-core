@@ -29,7 +29,7 @@ end
 #
 # Author:: Dmitry Lazurkin
 module SCConstrCompiler
-  PARAM_TYPES = Set[:sc_type, :sc_addr, :sc_addr_0, :sc_segment, :sc_boolean]
+  PARAM_TYPES = Set[:sc_type, :sc_addr, :sc_addr_0, :sc_segment, :sc_bool, :sc_int]
 
   @constraints = {}
   @filters = {}
@@ -156,21 +156,19 @@ module SCConstrCompiler
     def add_constr_instr(name, input, output)
       c = SCConstrCompiler.constr name
 
-      raise "Constraint '#{c}' doesn't exist." unless c
+      raise "Constraint '#{name}' doesn't exist." unless c
 
       i = ConstrInstr.new self, name, input, output
       i.validate!
       @code << i
     end
 
-    def add_func_instr(name, params)
+    def add_func_instr(name, input, output)
       f = SCConstrCompiler.func name
 
-      raise "Function '#{f}' doesn't exist." unless f
-      raise "Size of parameters hash is #{params.size}. Must be 1." if params.size != 1
+      raise "Function '#{name}' doesn't exist." unless f
 
-      pair = params.first
-      i = FuncInstr.new self, name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
+      i = FuncInstr.new self, name, input, output
       i.validate!
 
       @code << i
@@ -179,7 +177,7 @@ module SCConstrCompiler
     def add_filter_instr(name, params)
       f = SCConstrCompiler.filter name
 
-      raise "Filter '#{f}' doesn't exist." unless f
+      raise "Filter '#{name}' doesn't exist." unless f
 
       i = FilterInstr.new self, name, params
       i.validate!

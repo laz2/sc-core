@@ -41,8 +41,8 @@ def_filter :not_in_set
 
 def_func :get_beg
 def_func :get_end
-def_func :get_arc_const_pos
-def_func :get_arc_neg_const
+def_func :get_cpa
+def_func :get_cna
 def_func :get_0
 
 def_constr :all_input, sc_addr!(:e1)
@@ -50,36 +50,397 @@ def_constr :all_output, sc_addr!(:e1)
 
 def_constr :arc_type_input, sc_type(:t1), sc_addr!(:e2) do
   var :r1
-  constr :all_output, [e2] => [_, r1]
+  constr :all_output, e2 => [_, r1]
   filter :check_type, r1, t1
   return_with r1, e2
 end
 
-#def_constr :arc_type_output, sc_addr!(:e1), sc_type(:t2) do
-#  var :r2
-#  constr :all_output, [:e1] => [:_, :r2]
-#  filter :check_type, :r2, :t2
-#  return_with :e1, :r2
-#end
-#
-#def_constr :std3_faa, sc_addr!(:e1), sc_type(:t2), sc_type(:t3) do
-#  var :e2, :e3
-#  constr :all_output, [:e1, :t2] => [:_, :e2]
-#  func :get_end, [:e2] => [:e3]
-#  filter :check_type, :e3, :t3
-#  return_with :e1, :e2, :e3
-#end
-#
-#def_constr :std3_faf, sc_addr!(:e1), sc_type(:t2), sc_addr!(:e3) do
-#  var :e2, :ce1
-#  constr :all_input, [:e3] => [:_, :e2]
-#  func :get_end, [:e2] => [:ce1]
-#  filter :equal2, :e1, :ce1
-#  filter :check_type, :e2, :t2
-#  return_with :e1, :e2, :e3
+def_constr :arc_type_output, sc_addr!(:e1), sc_type(:t2) do
+  var :r2
+  constr :all_output, e1 => [_, r2]
+  filter :check_type, r2, t2
+  return_with e1, r2
+end
+
+def_constr :std3_faa, sc_addr!(:e1), sc_type(:t2), sc_type(:t3) do
+  var :e2, :e3
+  constr :all_output, [e1, t2] => [_, e2]
+  func :get_end, e2 => [e3]
+  filter :check_type, e3, t3
+  return_with e1, e2, e3
+end
+
+def_constr :std3_faf, sc_addr!(:e1), sc_type(:t2), sc_addr!(:e3) do
+  var :e2, :ce1
+  constr :all_input, e3 => [_, e2]
+  func :get_end, e2 => [ce1]
+  filter :equal2, e1, ce1
+  filter :check_type, e2, t2
+  return_with e1, e2, e3
+end
+
+def_constr :std3_aaf, sc_type(:t1), sc_type(:t2), sc_addr!(:e3) do
+  var :e1, :e2
+  constr :arc_type_input, [t2, e3] => e2
+  func :get_beg, e2 => e1
+  filter :check_type, e1, t1
+  return_with e1, e2, e3
+end
+
+def_constr :std3_dfd,
+           sc_addr_0(:e1), sc_int(:d1), sc_type(:t1),
+           sc_addr!(:e2), sc_type(:t2), sc_addr_0(:e3),
+           sc_int(:d3), sc_type(:t3) do
+  var :ce1, :ce3
+  filter :check_type, e2, t2
+  func :get_beg, e2 => ce1
+  filter :equal_with_d, e1, ce1, d1, t1
+  func :get_end, e2 => ce3
+  filter :equal_with_d, e3, ce3, d3, t3
+  return_with ce1, e2, ce3
+end
+
+def_constr :std5_faaaa, sc_addr!(:e1), sc_type(:t2), sc_type(:t3), sc_type(:t4), sc_type(:t5) do
+  var :e2, :e3, :e4, :e5
+  constr :std3_faa, [e1, t2, t3] => [_, e2, e3]
+  constr :std3_aaf, [t5, t4, e2] => [e5, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std5_faaaf, sc_addr!(:e1), sc_type(:t2), sc_type(:t3), sc_type(:t4), sc_addr!(:e5) do
+  var :e2, :e3, :e4, :ce5
+  constr :all_output, e1 => [_, e2]
+  filter :check_type, e2, t2
+  func :get_end, e2 => e3
+  filter :check_type, e3, t3
+  constr :all_input, e2 => [_, e4]
+  filter :check_type, e4, t4
+  func :get_beg, e4 => ce5
+  filter :equal2, e5, ce5
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std5_fafaa, sc_addr!(:e1), sc_type(:t2), sc_addr!(:e3), sc_type(:t4), sc_type(:t5) do
+  var :e2, :e4, :e5
+  constr :std3_faf, [e1, t2, e3] => [_, e2]
+  constr :std3_aaf, [t5, t4, e2] => [e5, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std5_fafaf, sc_addr!(:e1), sc_type(:t2), sc_addr!(:e3), sc_type(:t4), sc_addr!(:e5) do
+  var :e2, :e4
+  constr :std3_faf, [e1, t2, e3] => [_, e2]
+  constr :std3_faf, [e5, t4, e2] => [_, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std5_aaaaf, sc_type(:t1), sc_type(:t2), sc_type(:t3), sc_type(:t4), sc_addr!(:e5) do
+  var :e1, :e2, :e3, :e4
+  constr :std3_faa, [e5, t4, t2] => [_, e4, e2]
+  func :get_beg, e2 => e1
+  filter :check_type, e1, t1
+  func :get_end, e2 => e3
+  filter :check_type, e3, t3
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std5_aafaa, sc_type(:t1), sc_type(:t2), sc_addr!(:e3), sc_type(:t4), sc_type(:t5) do
+  var :e1, :e2, :e4, :e5
+  constr :std3_aaf, [t1, t2, e3] => [e1, e2]
+  constr :std3_aaf, [t5, t4, e2] => [e5, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std5_aafaf, sc_type(:t1), sc_type(:t2), sc_addr!(:e3), sc_type(:t4), sc_addr!(:e5) do
+  var :e1, :e2, :ce3, :e4
+  constr :std3_aaf, [t1, t2, e3] => [e1, e2]
+  constr :std3_faf, [e5, t4, e2] => [_, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std_ord_bin_conn1, sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4), sc_type(:t5), sc_type(:t6),
+           sc_type(:t7), sc_addr!(:e8), sc_type(:t9), sc_addr!(:e10) do
+  var :e1, :e2, :e3, :e5, :e6, :e7, :e9
+  constr :std3_faa, [e0, t1, t2] => [_, e1, e2]
+  constr :std5_fafaf, [e2, t3, e4, t7, e8] => [_, e3, _, e7]
+  constr :std5_faaaf, [e2, t5, t6, t9, e10] => [_, e5, e6, e9]
+  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10
+end
+
+def_constr :std_ord_bin_conn1_def, sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4), sc_type(:t5),
+           sc_type(:t6), sc_type(:t7), sc_addr!(:e8) do
+  var :e1, :e2, :e3, :e5, :e6, :e7
+  constr :std3_faa, [e0, t1, t2] => [_, e1, e2]
+  constr :std5_fafaf, [e2, t3, e4, t7, e8] => [_, e3, _, e7]
+  constr :std3_faa, [e2, t5, t6] => [_, e5, e6]
+  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8
+end
+
+#def_constr :std_ord_bin_conn1,
+#           sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+#           sc_type(:t3), sc_addr!(:e4), sc_type(:t5),
+#           sc_type(:t6), sc_type(:t7), sc_addr!(:e8),
+#           sc_type(:t9), sc_addr!(:e10) do
+#  var :e1, :e2, :e3, :e5, :e6, :e7, :e9
+#  constr :std5_aafaf, [t2, t3, e4, t7, e8] => [e2, e3, _, e7]
+#  constr :std3_faf, [e0, t1, e2] => [_, e1]
+#  constr :std5_faaaf, [e2, t5, t6, t9, e10] => [_, e5, e6, e9]
+#  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10
 #end
 
-#SCConstraintCompiler.dump
+# order is :
+#   0 >- 1 >- 2;
+# 2 >- 3 >- 4; 8 >- 7 >- 3;
+# 2 >- 5 >- 6; 10 >- 9 >- 5;
+# 1,3,5,7,9 are arcs
+# 0,8,10 are fixed
+# 4,6 are fixed
+#def_constr :std_ord_bin_conn2, sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+#           sc_type(:t3), sc_addr!(:e4), sc_type(:t5),
+#           sc_addr!(:e6), sc_type(:t7), sc_addr!(:e8),
+#           sc_type(:t9), sc_addr!(:e10) do
+#  var :e1, :e2, :e3, :e5, :e7, :e9
+#  constr :std3_faa, [e0, t1, t2] => [_, e1, e2]
+#  constr :std5_fafaf, [e2, t5, e6, t9, e10] => [_, e5, _, e9]
+#  constr :std5_fafaf, [e2, t3, e4, t7, e8] => [_, e3, _, e7]
+#  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10
+#end
+
+def_constr :std_ord_bin_conn2,
+           sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4), sc_type(:t5),
+           sc_addr!(:e6), sc_type(:t7), sc_addr!(:e8),
+           sc_type(:t9), sc_addr!(:e10) do
+  var :e1, :e2, :e3, :e5, :e7, :e9
+  constr :std5_aafaf, [t2, t3, e4, t7, e8] => [e2, e3, _, e7]
+  constr :std3_faf, [e0, t1, e2] => [_, e1]
+  constr :std5_fafaf, [e2, t5, e6, t9, e10] => [_, e5, _, e9]
+  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10
+end
+
+def_constr :std3l2_faaaf,
+           sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4) do
+  var :e1, :e2, :e3, :ce0
+  constr :all_input, e4 => [_, e3]
+  func :get_beg, e3 => e2
+  constr :all_input, e2 => [_, e1]
+  func :get_beg, e1 => ce0
+  filter :equal2, ce0, e0
+  filter :check_type, e1, t1
+  filter :check_type, e2, t2
+  filter :check_type, e3, t3
+  return_with e0, e1, e2, e3, e4
+end
+
+# order is:
+# 0 >- 1 >- 2 >- 5 >- 6;
+# 4 >- 3 >- 1
+# 6,4 are fixeds
+# 1,3,5 are arcs
+def_constr :std5_3_aaaafaf,
+           sc_type(:t0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4), sc_type(:t5),
+           sc_addr!(:e6) do
+  var :e0, :e1, :e2, :e3, :ce4, :e5
+  constr :all_input, e6 => [_, e5]
+  filter :check_type, e5, t5
+  func :get_beg, e5 => e2
+  filter :check_type, e2, t2
+  constr :all_input, e2 => [_, e1]
+  filter :check_type, e1, t1
+  func :get_beg, e1 => e0
+  filter :check_type, e0, t0
+  constr :all_input, e1 => [_, e3]
+  func :get_beg, e3 => ce4
+  filter :equal2, ce4, e4
+  filter :check_type, e3, t3
+  return_with e0, e1, e2, e3, e4, e5, e6
+end
+
+def_constr :std_in_set, sc_addr!(:set), sc_type(:type_mask) do
+  var :el, :arc_type
+  func :get_cpa, [] => arc_type
+  constr :std3_faa, [set, arc_type, type_mask] => [_, _, el]
+  return_with el
+end
+
+def_constr :std_3l2_5faaaf,
+           sc_addr!(:el), sc_addr(:a1), sc_addr(:a2),
+           sc_addr(:rel), sc_addr!(:a3) do
+  var :t0, :ta, :t1, :t2, :res
+  func :get_0, [] => t0
+  func :get_cpa, [] => ta
+  constr :std5_aafaf, [t0, ta, el, ta, a1] => t1
+  constr :std5_aafaf, [t0, ta, t1, ta, a2] => t2
+  filter :is_in_set, rel, t2
+  constr :std5_faaaf, [t2, ta, t0, ta, a3] => [_, _, res]
+  return_with res, t2, t1
+end
+
+# really ugly
+def_constr :std_sely3_p1,
+           sc_addr!(:s1), sc_type(:t1), sc_addr_0(:s2),
+           sc_type(:t2), sc_addr_0(:s3), sc_type(:t3) do
+  var :e1, :e2, :e3
+  constr :std_in_set, [s1, t1] => e1
+  constr :std3_faa, [e1, t2, t3] => [_, e2, e3]
+  filter :is_in_set, s2, e2
+  filter :is_in_set, s3, e3
+  return_with e1, e2, e3
+end
+
+def_constr :std_sely3_u1p2,
+           sc_type(:t1), sc_addr!(:s2), sc_type(:t2),
+           sc_addr_0(:s3), sc_type(:t3) do
+  var :e1, :e2, :e3
+  constr :std_in_set, [s2, t2] => e2
+  func :get_beg, e2 => e1
+  filter :check_type, e1, t1
+  func :get_end, e2 => e3
+  filter :check_type, e3, t3
+  filter :is_in_set, s3, e3
+  return_with e1, e2, e3
+end
+
+def_constr :std_sely3_u1u2p3,
+           sc_type(:t1), sc_type(:t2), sc_addr!(:s3), sc_type(:t3) do
+  var :e1, :e2, :e3
+  constr :std_in_set, [s3, t3] => e3
+  constr :std3_aaf, [t1, t2, e3] => [e1, e2]
+  return_with e1, e2, e3
+end
+
+def_constr :std_sely5_p1,
+           sc_addr!(:s1), sc_type(:t1), sc_addr_0(:s2),
+           sc_type(:t2), sc_addr_0(:s3), sc_type(:t3),
+           sc_addr_0(:s4), sc_type(:t4), sc_addr_0(:s5), sc_type(:t5) do
+  var :e1, :e2, :e3, :e4, :e5
+  constr :std_in_set, [s1, t1] => e1
+  constr :std5_faaaa, [e1, t2, t3, t4, t5] => [_, e2, e3, e4, e5]
+  filter :is_in_set, s4, e4
+  filter :is_in_set, s2, e2
+  filter :is_in_set, s3, e3
+  filter :is_in_set, s5, e5
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std_sely5_u1p2,
+           sc_type(:t1), sc_addr!(:s2), sc_type(:t2),
+           sc_addr_0(:s3), sc_type(:t3), sc_addr_0(:s4),
+           sc_type(:t4), sc_addr_0(:s5), sc_type(:t5) do
+  var :e1, :e2, :e3, :e4, :e5
+  constr :std_in_set, [s2, t2] => e2
+  func :get_beg, e2 => e1
+  filter :check_type, e1, t1
+  func :get_end, e2 => e3
+  filter :check_type, e3, t3
+  filter :is_in_set, s3, e3
+  constr :std3_aaf, [t5, t4, e2] => [e5, e4]
+  filter :is_in_set, s4, e4
+  filter :is_in_set, e5, s5
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std_sely5_u1u2p3,
+           sc_type(:t1), sc_type(:t2), sc_addr!(:s3),
+           sc_type(:t3), sc_addr_0(:s4), sc_type(:t4),
+           sc_addr_0(:s5), sc_type(:t5) do
+  var :e1, :e2, :e3, :e4, :e5
+  constr :std_in_set, [s3, t3] => e3
+  constr :std3_aaf, [t1, t2, e3] => [e1, e2]
+  constr :std3_aaf, [t5, t4, e2] => [e5, e4]
+  filter :is_in_set, s4, e4
+  filter :is_in_set, s5, e5
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std_sely5_u1u2u3p4,
+           sc_type(:t1), sc_type(:t2), sc_type(:t3),
+           sc_addr!(:s4), sc_type(:t4), sc_addr_0(:s5), sc_type(:t5) do
+  var :e1, :e2, :e3, :e4, :e5
+  constr :std_in_set, [s4, t4] => e4
+  func :get_beg, e4 => e5
+  filter :check_type, e5, t5
+  filter :is_in_set, s5, e5
+  func :get_end, e4 => e2
+  filter :check_type, e2, t2
+  func :get_beg, e2 => e1
+  func :get_end, e2 => e3
+  filter :check_type, e1, t1
+  filter :check_type, e3, t3
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std_sely5_u1u2u3u4p5,
+           sc_type(:t1), sc_type(:t2), sc_type(:t3),
+           sc_type(:t4), sc_addr!(:s5), sc_type(:t5) do
+  var :e1, :e2, :e3, :e4, :e5
+  constr :std_in_set, [s5, t5] => e5
+  constr :std5_aaaaf, [t1, t2, t3, t4, e5] => [e1, e2, e3, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+# 0 >- 1 >- 2 -< 3 -< 4;
+# 0 and 4 are fixed
+def_constr :std_intersect2,
+           sc_addr!(:e1), sc_type(:t2), sc_type(:t3),
+           sc_type(:t4), sc_addr!(:e5) do
+  var :e2, :e3, :e4
+  constr :std3_faa, [e1, t2, t3] => [_, e2, e3]
+  constr :std3_faf, [e5, t4, e3] => [_, e4]
+  return_with e1, e2, e3, e4, e5
+end
+
+def_constr :std_bin_conn_unord1,
+           sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4), sc_type(:t5), sc_type(:t6) do
+  var :e1, :e2, :e3, :e5, :e6
+  constr :std3l2_faaaf, [e0, t1, t2, t3, e4] => [_, e1, e2, e3]
+  constr :std3_faa, [e2, t5, t6] => [_, e5, e6]
+  return_with e0, e1, e2, e3, e4, e5, e6
+end
+
+# 0={} >- 1 >- 2 = {} >- 3 >- 4 = {}
+# 5 = (6 = {} -/> 4)
+# ! 8 = (7 = {} -> 3)
+#
+def_constr :std_4ln5_faaaaaffa, sc_addr!(:e0), sc_addr!(:e6), sc_addr!(:e7) do
+  var :cpa, :e1, :e2, :e3, :e4, :e5, :cna, :t0
+  func :get_cpa, [] => cpa
+  func :get_cna, [] => cna
+  func :get_0, [] => t0
+  constr :std3_faa, [e0, cpa, t0] => [_, e1, e2]
+  constr :std3_faa, [e2, cpa, t0] => [_, e3, e4]
+  constr :std3_faf, [e6, cna, e4] => [_, e5]
+  filter :not_in_set, e7, e3
+  return_with e0, e1, e2, e3, e4, e5, e6
+end
+
+def_constr :std_4l5_faaaaaffa, sc_addr!(:e0), sc_addr!(:e6), sc_addr!(:e7) do
+  var :e1, :e2, :e3, :e4, :e5, :tcpa, :tcna, :t0, :e8
+  func :get_cpa, [] => tcpa
+  func :get_cna, [] => tcna
+  func :get_0, [] => t0
+  constr :std3_faa, [e0, tcpa, t0] => [_, e1, e2]
+  constr :std3_faa, [e2, tcpa, t0] => [_, e3, e4]
+  constr :std3_faf, [e6, tcna, e4] => [_, e5]
+  constr :std3_faf, [e7, tcpa, e3] => [_, e8]
+  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8
+end
+
+def_constr :std_ord_bin_conn1a,
+           sc_addr!(:e0), sc_type(:t1), sc_type(:t2),
+           sc_type(:t3), sc_addr!(:e4), sc_type(:t5),
+           sc_type(:t6), sc_addr!(:e7), sc_type(:t8) do
+  var :e1, :e2, :e3, :e5, :e6, :e8
+  constr :std3_aaf, [t2, t3, e4] => [e2, e3]
+  constr :std3_faf, [e0, t1, e2] => [_, e1]
+  constr :std5_faaaf, [e2, t5, t6, t8, e7] => [_, e5, e6, e8]
+  return_with e0, e1, e2, e3, e4, e5, e6, e7, e8
+end
 
 footer <<EOF
 // standart filters and functions
@@ -263,7 +624,7 @@ void __postinit_std_constraints(sc_session *system)
   // system_session = system;
 }
 
-void  __init_std_constraints()
+void __init_std_constraints()
 {
   REGISTER_FUNC(__get_beg);
   REGISTER_FUNC(__get_end);

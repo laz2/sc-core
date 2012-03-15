@@ -24,7 +24,7 @@ module SCConstrCompiler
   # Contains DSL-methods top scope of sc-constraint generator
   module DSL
     def header(text)
-      #SCConstrCompiler.header = text
+      SCConstrCompiler.header = text
     end
 
     def def_constr(name, *params, &body)
@@ -42,7 +42,7 @@ module SCConstrCompiler
     end
 
     def footer(text)
-      #SCConstrCompiler.footer = text
+      SCConstrCompiler.footer = text
     end
 
     # Define DSL-methods for creating parameters of each type
@@ -78,7 +78,7 @@ module SCConstrCompiler
         @__constr__.add_constr_instr name, alone_sym_to_ary(pair[0]), alone_sym_to_ary(pair[1])
       end
 
-      def func(name, input, output)
+      def func(name, params)
         raise "Size of parameters hash is #{params.size}. Must be 1." if params.size != 1
 
         pair = params.first
@@ -100,11 +100,7 @@ module SCConstrCompiler
       end
 
       def alone_sym_to_ary(obj)
-        if obj.is_a? Symbol
-          [obj]
-        else
-          obj
-        end
+        obj.is_a?(Symbol) ? [obj] : obj
       end
     end
   end
