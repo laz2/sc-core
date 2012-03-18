@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<GWF version="1.6">
+    <staticSector>
+        <node type="node/const/general_node" idtf="S" shapeColor="#000000" id="12374376" parent="0" left="0" top="0" right="16" bottom="25" textColor="164" text_angle="0" text_font="Times New Roman [Arial]" font_size="10" x="-155" y="90" haveBus="false">
+            <content type="0" mime_type="" file_name=""/>
+        </node>
+    </staticSector>
+</GWF>

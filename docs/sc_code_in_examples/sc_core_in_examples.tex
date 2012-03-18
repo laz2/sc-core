@@ -1,0 +1,177 @@
+% -----------------------------------------------------------------------------
+% This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+% For the latest info, see http://www.ostis.net
+% 
+% Copyright (c) 2012 OSTIS
+% 
+
+% OSTIS is free software: you can redistribute it and/or modify
+% it under the terms of the GNU Lesser General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% OSTIS is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+% 
+% You should have received a copy of the GNU Lesser General Public License
+% along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+% -----------------------------------------------------------------------------
+
+\documentclass[hyperref={pdftex,unicode}]{beamer}
+
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage[utf8]{inputenc}
+
+% Подключаем математические формулы
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{cmap}               % Поиск по русским буквам в pdf
+
+\usepackage{rotating}
+
+\usetheme{Warsaw}
+
+\newcommand{\objeqv}{
+  \begin{center}
+    \begin{sideways}
+      \[ \Longleftrightarrow \]
+    \end{sideways}
+  \end{center}
+}
+
+\begin{document}
+
+\title{SC-код в примерах}  
+\author{Лазуркин Д.А.}
+\date{Минск, 2012} 
+
+\begin{frame}
+  \maketitle{}
+\end{frame}
+
+
+\section{Базовые элементы sc-кода}
+\begin{frame}{Множество}
+  \begin{center}
+    \[ S = \{ \}; \]
+
+    \objeqv  
+
+    \begin{figure}
+      \includegraphics{Set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item такой sc-элемент называется константным sc-узлом
+  \item подпись рядом с sс-элементом называется его идентификатором
+  \item с использованием такого sc-элемента может обозначаться внешний
+    объект
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Принадлежность элемента множеству}
+  \begin{center}
+    \[ a \in S \] или \[ S = \{a\} \]
+
+    \objeqv  
+
+    \begin{figure}
+      \includegraphics{El_in_set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \emph{позитивной} константной sc-дугой
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Непринадлежность элемента множеству}
+  \begin{center}
+    \[ a \notin S \]
+
+    \objeqv  
+
+    \begin{figure}
+      \includegraphics{El_not_in_set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \emph{негативной} константной sc-дугой
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Нечеткая принадлежность элемента множеству}
+  \begin{figure}
+    \centering
+    \includegraphics{El_fuzzy_in_set}
+  \end{figure}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \emph{нечеткой} константной sc-дугой
+  \item используется, когда неизвестна позитивность/негативность sc-дуги
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{А теперь усложним пример...}
+  \begin{center}
+    \[ S = \{S1, S2, S2, a\}; \]
+    \[ S1 = \{a, b\}; \]
+    \[ S2 = \{b, c, d\}. \]
+  \end{center}
+
+  \objeqv
+
+  \begin{figure}
+    \includegraphics[scale=0.6]{Complex_sets_example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Мощь семантических сетей...}
+  \begin{center}
+    Честно сказать, я затрудняюсь с ходу написать здесь что-то
+    полезное.
+  \end{center}
+
+  \objeqv  
+
+  \begin{figure}
+    \centering
+    \includegraphics{Very_complex_sets_example}
+  \end{figure}
+
+  \begin{itemize}
+  \item sc-элементы могут не иметь идентификаторов
+  \item sc-дуги также могут быть элементами множеств
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Кортеж}
+  \begin{center}
+    \[ T = <a, b, c> \]
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics{Set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item sc-элемент в виде кружка с горизонтальной чертой называется
+    \emph{связкой}, так как выражает связь между объектами
+  \item sc-элемент в виде кружка с крестом внутри называется
+    \emph{атрибутом} и выражает роль объекта в рамках множества
+  \item атрибуты \emph{1\_}, \emph{2\_}, \emph{3\_} и т.д. называются порядковыми
+  \item идентификатор атрибута должен заканчиваться символом `_`
+  \end{itemize}
+\end{frame}
+
+\end{document}
