@@ -4,7 +4,7 @@
 % 
 % Copyright (c) 2012 OSTIS
 % 
-
+%
 % OSTIS is free software: you can redistribute it and/or modify
 % it under the terms of the GNU Lesser General Public License as published by
 % the Free Software Foundation, either version 3 of the License, or
@@ -21,6 +21,8 @@
 
 \documentclass[hyperref={pdftex,unicode}]{beamer}
 
+\usepackage{latexsym}
+\usepackage[warn]{mathtext}     % русские буквы буквы в формулах (с предупреждением)
 \usepackage[T2A]{fontenc}
 \usepackage[english,russian]{babel}
 \usepackage[utf8]{inputenc}
@@ -31,6 +33,8 @@
 \usepackage{amssymb}
 
 \usepackage{cmap}               % Поиск по русским буквам в pdf
+
+\usepackage[unicode=true]{hyperref}
 
 \usepackage{rotating}
 
@@ -55,7 +59,7 @@
 \end{frame}
 
 
-\section{Базовые элементы sc-кода}
+\section{От теории множеств к sc-коду}
 \begin{frame}{Множество}
   \begin{center}
     \[ S = \{ \}; \]
@@ -153,25 +157,199 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Кортеж}
+\begin{frame}[shrink=20]{Кортеж}
   \begin{center}
     \[ T = <a, b, c> \]
     
     \objeqv
 
     \begin{figure}
-      \includegraphics{Set}
+      \includegraphics{Tuple}
     \end{figure}
   \end{center}
 
   \begin{itemize}
-  \item sc-элемент в виде кружка с горизонтальной чертой называется
-    \emph{связкой}, так как выражает связь между объектами
   \item sc-элемент в виде кружка с крестом внутри называется
     \emph{атрибутом} и выражает роль объекта в рамках множества
-  \item атрибуты \emph{1\_}, \emph{2\_}, \emph{3\_} и т.д. называются порядковыми
-  \item идентификатор атрибута должен заканчиваться символом `_`
+  \item атрибуты \emph{1\_}, \emph{2\_}, \emph{3\_} и т.д. называются
+    порядковыми
+  \item идентификатор атрибута должен заканчиваться символом `\_`
+  \item кортеж в sc-тексте - это множество, каждый элемент которого
+    принадлежит ему с указанием определенной роли
   \end{itemize}
 \end{frame}
+
+\begin{frame}{Кортеж с нечисловыми атрибутами}
+  \begin{center}
+    \[ T = <\cyrmathit{первый}\_: a, \cyrmathit{второй}\_: b, \cyrmathit{третий}\_: c> \]
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics{Tuple_with_custom_attrs}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}[shrink=20]{Отношение}
+  \begin{center}
+    \[ R = \{ <a, b>, <c, d> \} \]
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.8]{Relation}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item для обозначения отношений используется кружок с наклонным
+    крестом внутри
+  \item элемент в виде кружка с горизонтальной чертой внутри
+    называется связкой и выражает связь между своими компонентами
+  \item в sc-коде отношение - это множество связок
+  \end{itemize}
+\end{frame}
+
+\section{Углубляемся в sc-код}
+\begin{frame}{Бинарная ориентированная пара}
+  \begin{center}
+    \begin{figure}
+      \includegraphics{Bin_ord_tuple}
+    \end{figure}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics{Bin_ord_pair}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item так как бинарный связки используются очень часто, то для них
+    введенный специальный элемент - бинарная ориентированная пара
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Бинарная неориентированная пара}
+  \begin{center}
+    \begin{figure}
+      \includegraphics{Bin_unord_tuple}
+    \end{figure}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics{Bin_unord_pair}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item связка вполне может быть неориентированной
+  \end{itemize}
+\end{frame}
+
+\section{Теория графов в sc-коде}
+\begin{frame}{Поиск одного из минимальных путей в неориентированном графе}
+  Теперь мы займемся формализацией c использованием sc-кода данных для
+  волнового алгоритма поиска одного из минимальных путей в
+  неориентированном графе.
+
+  Вся дальнейшая формализация основыввает на базе знаний по теории
+  графов
+  \href{http://ostisgraphstheo.sourceforge.net/index.php/Заглавная_страница}{OSTIS Graphs Theory}.
+\end{frame}
+
+\subsection{Граф в sc-коде}
+\begin{frame}{Представление неориентированного графа}
+  Начнем мы с представления в sc-коде неориентированного графа $G$:
+
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{graph_theory/Undirected_graph_no_scg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Классический математический способ задания графа}
+  Классический математический способ задания графа $G$ будет выглядеть
+  следующим образом:
+  
+  \[ G = <Vertex, Edge>; \]
+  \[ Vertex = \{ A, B, C, E, D, F, K \}; \]
+  \[ Edge = \{ \{A, B\}, \{A, C\}, \{C, E\}, \{C, D\}, \{B, E\}, \{E, F\} \}. \]
+\end{frame}
+
+\begin{frame}{Абсолютное понятия `Неориентированный граф`}
+  Для представления неориентированных графов в sc-коде введем
+  абсолютное понятия \emph{неориентированный граф}, т.е. множество
+  всех неориентированных графов.
+  Тогда граф G в sc-коде будет выглядеть следующим образом...
+\end{frame}
+
+\begin{frame}{Классический способ задания неориентированного графа (sc-код)}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_classic}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Основной способ задания неориентированного граф}
+  Давайте введем два относительных понятия (ролевых отношения)
+  \emph{вершина\_} и \emph{ребро\_}, тогда граф $G$ на языке теории множеств можно
+  задать следующим образом:
+
+  \begin{eqnarray*}
+    G = <\cyrmathit{вершина}\_: A, \cyrmathit{вершина}\_: B, \\
+    \cyrmathit{вершина}\_: C, \cyrmathit{вершина}\_: E, \\
+    \cyrmathit{вершина}\_: D, \cyrmathit{вершина}\_: F, \\
+    \cyrmathit{вершина}\_: K, \cyrmathit{ребро}\_: \{A, B\}, \\
+    \cyrmathit{ребро}\_: \{A, C\}, \cyrmathit{ребро}\_: \{C, E\}, \\
+    \cyrmathit{ребро}\_: \{C, D\}, \cyrmathit{ребро}\_: \{B, E\}, \\
+    \cyrmathit{ребро}\_: \{E, F\}>.
+  \end{eqnarray*}
+\end{frame}
+
+\begin{frame}{Основная способ задания неориентированного графа (sc-код)}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_main}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Представление ориентированного графа}
+  Теперь попробуем представить в sc-коде ориентированного графа $G_d$:
+
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{graph_theory/Directed_graph_no_scg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Представление неориентированного графа (доп. понятия)}
+  Для представления графа $G_d$ введем абсолютное понятие
+  \emph{ориентированный граф} и относительное понятия (ролевое отношение)
+  \emph{дуга\_}.
+\end{frame}
+
+\begin{frame}{Представление ориентированного графа (sc-код)}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Directed_graph}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Сокращенная форма представления графа (sc-код)}
+  Для удобства восприятия графа человеком (\emph{но не машиной})
+  будем в дальнейшем максимальным образом использовать сокращенную
+  форму задания графа:
+  
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_short_form}
+  \end{figure}
+\end{frame}
+
+\subsection{Маршрут в sc-коде}
+
 
 \end{document}
