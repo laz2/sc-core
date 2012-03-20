@@ -1,0 +1,293 @@
+% -----------------------------------------------------------------------------
+% This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+% For the latest info, see http://www.ostis.net
+% 
+% Copyright (c) 2012 OSTIS
+% 
+%
+% OSTIS is free software: you can redistribute it and/or modify
+% it under the terms of the GNU Lesser General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% OSTIS is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+% 
+% You should have received a copy of the GNU Lesser General Public License
+% along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+% -----------------------------------------------------------------------------
+
+\section{Теория графов в sc-коде}
+\begin{frame}{Поиск одного из минимальных путей в неориентированном графе}
+  Теперь мы займемся формализацией c использованием sc-кода данных для
+  волнового алгоритма поиска одного из минимальных путей в
+  неориентированном графе.
+
+  Вся дальнейшая формализация основыввает на базе знаний по теории
+  графов
+  \href{http://ostisgraphstheo.sourceforge.net/index.php/Заглавная_страница}{OSTIS Graphs Theory}.
+\end{frame}
+
+\subsection{Граф в sc-коде}
+\begin{frame}{Представление неориентированного графа}
+  Начнем мы с представления в sc-коде неориентированного графа $G$:
+
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{graph_theory/Undirected_graph_no_scg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Классический математический способ задания графа}
+  Классический математический способ задания графа $G$ будет выглядеть
+  следующим образом:
+  
+  \[ G = <Vertex, Edge>; \]
+  \[ Vertex = \{ A, B, C, E, D, F, K \}; \]
+  \[ Edge = \{ \{A, B\}, \{A, C\}, \{C, E\}, \{C, D\}, \{B, E\}, \{E, F\} \}. \]
+\end{frame}
+
+\begin{frame}{Абсолютное понятия `Неориентированный граф`}
+  Для представления неориентированных графов в sc-коде введем
+  абсолютное понятия \emph{неориентированный граф}, т.е. множество
+  всех неориентированных графов.
+  Тогда граф G в sc-коде будет выглядеть следующим образом...
+\end{frame}
+
+\begin{frame}{Классический способ задания неориентированного графа (sc-код)}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_classic}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Основной способ задания неориентированного граф}
+  Давайте введем два относительных понятия (ролевых отношения)
+  \emph{вершина\_} и \emph{ребро\_}, тогда граф $G$ на языке теории множеств можно
+  задать следующим образом:
+
+  \begin{eqnarray*}
+    G = <\cyrmathit{вершина}\_: A, \cyrmathit{вершина}\_: B, \\
+    \cyrmathit{вершина}\_: C, \cyrmathit{вершина}\_: E, \\
+    \cyrmathit{вершина}\_: D, \cyrmathit{вершина}\_: F, \\
+    \cyrmathit{вершина}\_: K, \cyrmathit{ребро}\_: \{A, B\}, \\
+    \cyrmathit{ребро}\_: \{A, C\}, \cyrmathit{ребро}\_: \{C, E\}, \\
+    \cyrmathit{ребро}\_: \{C, D\}, \cyrmathit{ребро}\_: \{B, E\}, \\
+    \cyrmathit{ребро}\_: \{E, F\}>.
+  \end{eqnarray*}
+\end{frame}
+
+\begin{frame}{Основная способ задания неориентированного графа (sc-код)}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_main}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Представление ориентированного графа}
+  Теперь попробуем представить в sc-коде ориентированного графа $G_d$:
+
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{graph_theory/Directed_graph_no_scg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Представление неориентированного графа (доп. понятия)}
+  Для представления графа $G_d$ введем абсолютное понятие
+  \emph{ориентированный граф} и относительное понятия (ролевое отношение)
+  \emph{дуга\_}.
+\end{frame}
+
+\begin{frame}{Представление ориентированного графа (sc-код)}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Directed_graph}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Сокращенная форма представления графа (sc-код)}
+  Для удобства восприятия графа человеком (\emph{но не машиной})
+  будем в дальнейшем максимальным образом использовать сокращенную
+  форму задания графа:
+  
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_short_form}
+  \end{figure}
+\end{frame}
+
+\subsection{Минимальный путь в sc-коде}
+
+\begin{frame}{Определение маршрута}
+  Из книги Ф. Харрари `Теория графов` (глава `Маршруты и связность`, с. 26):
+  \begin{quote}
+    \textbf{Маршрутом} в графе $G$ называется чередующаяся последовательность
+    вершин и ребер $v_0$, $x_1$, $v_1$, …, $v_{n-1}$, $x_n$, $v_n$; эта последовательность
+    начинается и кончается вершиной, и каждое ребро последовательности
+    инцидентно двум вершинам, одна из которых непосредственно
+    предшествует ему, а другая непосредственно следует за
+    ним. Указанный маршрут соединяет вершины $v_0$ и $v_n$, и его можно
+    обозначить $v_0$, $v_1$, …, $v_n$ (наличие ребер подразумевается).
+  \end{quote}
+\end{frame}
+
+\begin{frame}{Определение пути}
+  Из книги Ф. Харрари `Теория графов` (глава `Маршруты и связность`, с. 26):
+  \begin{quote}
+    Маршрут называется \textbf{цепью}, если все его ребра различны, и
+    \textbf{простой цепью} (\textbf{путем}), если все вершины (а,
+    следовательно, и ребра) различны.
+  \end{quote}
+\end{frame}
+
+\begin{frame}{Пример пути в графе}
+  В графе $G$ выделен синем цветом пути $R$, который задается
+  последовательностью $A$, $e_2$, $B$, $e_5$, $E$, $e_6$, $F$:
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{graph_theory/Path_example_no_scg}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Путь - это маршрут}
+  Так как путь - это маршрут, то, определив более общее понятие, мы
+  разберемся с более частным.
+
+  Маршрут - это относительное понятие, которое связывает граф с
+  некоторой последовательностью (структурой маршрута).
+
+  Введем бинарное ориентированное отношение \textit{маршрут*}:
+  \begin{figure}
+    \centering
+    \includegraphics{graph_theory/Example_of_relations_Route_tuple}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Различные способы представления маршрута}
+  Мы будем рассматривать следующие способы представления структуры
+  маршрута:
+  \begin{itemize}
+  \item подграф
+  \item последовательность
+  \item соответствие
+  \end{itemize}
+\end{frame}
+
+\subsubsection{Маршрут, как подграф}
+
+\begin{frame}{Отношение \textit{подграф*}}
+  Пример бинарного ориентированного отношения \textit{подграф*},
+  которое связывает граф $G_1$ с его подграфом $G_2$:
+  \begin{figure}
+    \centering
+    \includegraphics{graph_theory/Relation_Subgraph_example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Маршрут $R$, как подграф}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.65]{graph_theory/Route_as_subgraph}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Проблема представления маршрута в виде подграфа}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.65]{graph_theory/Route_as_subgraph_problem}
+  \end{figure}
+\end{frame}
+
+\subsubsection{Маршрут, как последовательность}
+
+\begin{frame}{Маршрут $R$, как поcледовательность}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.62]{graph_theory/Route_as_sequence}
+  \end{figure}
+\end{frame}
+
+\subsubsection{Маршрут, как соответствие}
+
+\begin{frame}{От вершин и ребер к посещениям вершин и ребер}
+  Снова заглянем в Ф. Харрари `Теория графов` (глава `Маршруты и связность`, с. 26):
+  \begin{quote}
+    \textbf{Маршрутом} в графе $G$ называется чередующаяся последовательность
+    вершин и ребер $v_0$, $x_1$, $v_1$, \dots, $v_{n-1}$, $x_n$, $v_n$; \dots
+  \end{quote}
+
+  Давайте сделаем явным в этом определении то, что якобы считается
+  само собой разумеющимся:
+  \begin{quote}
+    \textbf{Маршрутом} в графе $G$ называется чередующаяся последовательность \textbf{посещений}
+    вершин и ребер $v_0$, $x_1$, $v_1$, \dots, $v_{n-1}$, $x_n$, $v_n$; \dots
+  \end{quote}
+\end{frame}
+
+\begin{frame}{Структура маршрут $R$}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.58]{graph_theory/Route_as_correspondence_incomplete}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Пример отношения \textit{соответствие*}}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.65]{graph_theory/Relation_Correspondece_example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Маршрут $R$, как соответствие}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.55]{graph_theory/Route_as_correspondence_final}
+  \end{figure}
+\end{frame}
+
+\subsubsection{Минимальный путь в графе}
+
+\begin{frame}{Отношения \textit{цепь*} и \textit{путь*} (\textit{простая цепь*})}
+  \begin{figure}
+    \centering
+    \includegraphics{graph_theory/Relations_Trail_Path}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Один из минимальных путей в графе $G$}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.54]{graph_theory/Path_final}
+  \end{figure}
+\end{frame}
+
+\subsection{Обобщение различных видов графов}
+
+\begin{frame}{Пример абсолютного понятия \textit{графовая структура}}
+  \begin{figure}
+    \centering
+    \includegraphics{graph_theory/Graph_structure_example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Иерархия типов \textit{графовых структур}}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.55]{graph_theory/Hierarchy_of_graphs_types}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Иерархия ролей элементов \textit{графовых структур}}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.43]{graph_theory/Hierarchy_of_elements_roles_in_graph_structure}
+  \end{figure}
+\end{frame}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "sc_core_in_examples"
+%%% End: 

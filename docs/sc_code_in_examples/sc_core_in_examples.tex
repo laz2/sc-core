@@ -79,7 +79,6 @@
   \end{itemize}
 \end{frame}
 
-
 \begin{frame}{Принадлежность элемента множеству}
   \begin{center}
     \[ a \in S \] или \[ S = \{a\} \]
@@ -249,107 +248,6 @@
   \end{itemize}
 \end{frame}
 
-\section{Теория графов в sc-коде}
-\begin{frame}{Поиск одного из минимальных путей в неориентированном графе}
-  Теперь мы займемся формализацией c использованием sc-кода данных для
-  волнового алгоритма поиска одного из минимальных путей в
-  неориентированном графе.
-
-  Вся дальнейшая формализация основыввает на базе знаний по теории
-  графов
-  \href{http://ostisgraphstheo.sourceforge.net/index.php/Заглавная_страница}{OSTIS Graphs Theory}.
-\end{frame}
-
-\subsection{Граф в sc-коде}
-\begin{frame}{Представление неориентированного графа}
-  Начнем мы с представления в sc-коде неориентированного графа $G$:
-
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.7]{graph_theory/Undirected_graph_no_scg}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Классический математический способ задания графа}
-  Классический математический способ задания графа $G$ будет выглядеть
-  следующим образом:
-  
-  \[ G = <Vertex, Edge>; \]
-  \[ Vertex = \{ A, B, C, E, D, F, K \}; \]
-  \[ Edge = \{ \{A, B\}, \{A, C\}, \{C, E\}, \{C, D\}, \{B, E\}, \{E, F\} \}. \]
-\end{frame}
-
-\begin{frame}{Абсолютное понятия `Неориентированный граф`}
-  Для представления неориентированных графов в sc-коде введем
-  абсолютное понятия \emph{неориентированный граф}, т.е. множество
-  всех неориентированных графов.
-  Тогда граф G в sc-коде будет выглядеть следующим образом...
-\end{frame}
-
-\begin{frame}{Классический способ задания неориентированного графа (sc-код)}
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_classic}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Основной способ задания неориентированного граф}
-  Давайте введем два относительных понятия (ролевых отношения)
-  \emph{вершина\_} и \emph{ребро\_}, тогда граф $G$ на языке теории множеств можно
-  задать следующим образом:
-
-  \begin{eqnarray*}
-    G = <\cyrmathit{вершина}\_: A, \cyrmathit{вершина}\_: B, \\
-    \cyrmathit{вершина}\_: C, \cyrmathit{вершина}\_: E, \\
-    \cyrmathit{вершина}\_: D, \cyrmathit{вершина}\_: F, \\
-    \cyrmathit{вершина}\_: K, \cyrmathit{ребро}\_: \{A, B\}, \\
-    \cyrmathit{ребро}\_: \{A, C\}, \cyrmathit{ребро}\_: \{C, E\}, \\
-    \cyrmathit{ребро}\_: \{C, D\}, \cyrmathit{ребро}\_: \{B, E\}, \\
-    \cyrmathit{ребро}\_: \{E, F\}>.
-  \end{eqnarray*}
-\end{frame}
-
-\begin{frame}{Основная способ задания неориентированного графа (sc-код)}
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_main}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Представление ориентированного графа}
-  Теперь попробуем представить в sc-коде ориентированного графа $G_d$:
-
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.7]{graph_theory/Directed_graph_no_scg}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Представление неориентированного графа (доп. понятия)}
-  Для представления графа $G_d$ введем абсолютное понятие
-  \emph{ориентированный граф} и относительное понятия (ролевое отношение)
-  \emph{дуга\_}.
-\end{frame}
-
-\begin{frame}{Представление ориентированного графа (sc-код)}
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{graph_theory/Directed_graph}
-  \end{figure}
-\end{frame}
-
-\begin{frame}{Сокращенная форма представления графа (sc-код)}
-  Для удобства восприятия графа человеком (\emph{но не машиной})
-  будем в дальнейшем максимальным образом использовать сокращенную
-  форму задания графа:
-  
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.6]{graph_theory/Undirected_graph_short_form}
-  \end{figure}
-\end{frame}
-
-\subsection{Маршрут в sc-коде}
-
+\input{graphs_theory}
 
 \end{document}
