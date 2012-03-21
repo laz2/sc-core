@@ -1,0 +1,382 @@
+% -----------------------------------------------------------------------------
+% This source file is part of OSTIS (Open Semantic Technology for Intelligent Systems)
+% For the latest info, see http://www.ostis.net
+% 
+% Copyright (c) 2012 OSTIS
+% 
+%
+% OSTIS is free software: you can redistribute it and/or modify
+% it under the terms of the GNU Lesser General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% OSTIS is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU Lesser General Public License for more details.
+% 
+% You should have received a copy of the GNU Lesser General Public License
+% along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
+% -----------------------------------------------------------------------------
+
+\section{Формализация в sc-коде}
+
+\subsection{От теории множеств к sc-коду}
+
+\begin{frame}{Множество}
+  \begin{center}
+    \[ S = \{ \}; \]
+
+    \objeqv  
+
+    \begin{figure}
+      \includegraphics{basic/Set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \textbf{константным sc-узлом}
+  \item подпись рядом с sс-элементом называется его идентификатором
+  \item при помощи такого sc-элемента может обозначаться внешний
+    объект, а не только множество
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Принадлежность элемента множеству}
+  \begin{center}
+    \[ a \in S; \] или \[ S = \{ a \}. \]
+
+    \objeqv  
+
+    \begin{figure}
+      \includegraphics{basic/El_in_set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \textbf{позитивной константной sc-дугой}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Непринадлежность элемента множеству}
+  \begin{center}
+    \[ a \notin S \]
+
+    \objeqv  
+
+    \begin{figure}
+      \includegraphics{basic/El_not_in_set}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \textbf{негативной константной sc-дугой}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Нечеткая принадлежность элемента множеству}
+  \begin{figure}
+    \centering
+    \includegraphics{basic/El_fuzzy_in_set}
+  \end{figure}
+
+  \begin{itemize}
+  \item такой sc-элемент называется \textbf{нечеткой константной sc-дугой}
+  \item используется, когда неизвестна позитивность/негативность sc-дуги
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{А теперь усложним пример...}
+  \begin{center}
+    \[ S = \{S1, S2, S2, a\}; \]
+    \[ S1 = \{a, b\}; \]
+    \[ S2 = \{b, c, d\}. \]
+  \end{center}
+
+  \objeqv
+
+  \begin{figure}
+    \includegraphics[scale=0.6]{basic/Complex_sets_example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Мощь семантических сетей...}
+  \begin{center}
+    Честно сказать, я затрудняюсь с ходу написать здесь что-то
+    полезное.
+  \end{center}
+
+  \objeqv  
+
+  \begin{figure}
+    \centering
+    \includegraphics{basic/Very_complex_sets_example}
+  \end{figure}
+
+  \begin{itemize}
+  \item sc-элементы могут не иметь идентификаторов
+  \item sc-дуги также могут быть элементами множеств
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Кортеж}
+  \begin{center}
+    \[ T = <a, b, c> \]
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.65]{basic/Tuple}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item sc-элемент в виде кружка с крестом внутри называется
+    \textbf{атрибутом} и выражает роль объекта в рамках множества
+  \item атрибуты \idtf{1\_}, \idtf{2\_}, \idtf{3\_} и т.д. называются
+    порядковыми
+  \item идентификатор атрибута должен заканчиваться символом `\_`
+  \item кортеж в sc-тексте - это множество, каждый элемент которого
+    принадлежит ему с указанием определенной роли
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Кортеж с нечисловыми атрибутами}
+  \begin{center}
+    \begin{eqnarray*}
+      T = <\cyrmathit{первый}\_: a, \cyrmathit{второй}\_: b, \\
+      \cyrmathit{третий}\_: \cyrmathit{дополнительный}\_: c>
+    \end{eqnarray*}
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Tuple_with_custom_attrs}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item ролей (атрибутов) у вхождения элемента в множество может быть несколько
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=20]{Отношение}
+  \begin{center}
+    \[ R = \{ <a, b>, <c, d> \} \]
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.8]{basic/Relation}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item для обозначения отношений используется кружок с наклонным
+    крестом внутри
+  \item элемент в виде кружка с горизонтальной чертой внутри
+    называется связкой и выражает связь между своими компонентами
+  \item в sc-коде отношение - это множество связок
+  \item идентификатор отношения в sc-коде должен обязательно
+    заканчиваться символом "*"
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Бинарная ориентированная пара}
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Bin_ord_tuple}
+    \end{figure}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics{basic/Bin_ord_pair}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item так как бинарные связки используются очень часто, то для них
+    введен специальный элемент - бинарная ориентированная пара
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Отношение c бинарными ориентированными парами}
+  \begin{center}
+    \begin{figure}
+      \includegraphics[scale=0.8]{basic/Relation}
+    \end{figure}
+    
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.8]{basic/Relation_with_bin_ord_pairs}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Бинарная неориентированная пара}
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Bin_unord_tuple}
+    \end{figure}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics{basic/Bin_unord_pair}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item связка вполне может быть неориентированной
+  \item связка - это не всегда кортеж (ориентированное множество)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{включение*} и \idtf{строгое
+      включение*}}
+  \begin{center}
+    \begin{eqnarray*}
+      S_1 = \{ a, b, c, d \}; \\
+      S_2 = \{ b, c \}; \\
+      S_1 \supset S_2; \\
+      S_1 \supseteq S_2.
+    \end{eqnarray*}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_inclusion_and_strict_inclusion}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item sc-элементы с одинаковыми идентификаторами склеиваются
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{объединение*}}
+  \begin{center}
+    \begin{eqnarray*}
+      S_1 = \{ S_2, a, b \}; \\
+      S_2 = \{ b, c, d \}; \\
+      S = S_1 \cap S_2 = \{ a, b, c, d, S_2 \}.
+    \end{eqnarray*}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_union}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{пересечение*}}
+  \begin{center}
+    \begin{eqnarray*}
+      S_1 = \{ S_2, a, b \}; \\
+      S_2 = \{ b, c, d \}; \\
+      S = S_1 \cup S_2 = \{ b \}.
+    \end{eqnarray*}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_intersection}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Доп. элемент SCg: Шина}
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Bus_example}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Доп. элемент SCg: Контур}
+  \begin{center}
+    \begin{figure}
+      \includegraphics[scale=0.55]{basic/Contour_example}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\subsection{Формализация в sc-коде}
+
+\begin{frame}{Виды понятий в sc-коде}
+  Понятие (sc-код) - это множество, все элементы которого называются
+  экземплярами (объектами) данного понятия.
+
+
+  При формализации предметной области в sc-коде выделяют следующие
+  виды понятий:
+  \begin{itemize}
+  \item относительное понятие (всегда отношение):
+    \begin{itemize}
+    \item отношение общего вида
+    \item ролевое отношение
+    \end{itemize}
+  \item абсолютное понятие (все то, что не относительное понятие)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Абсолютное понятие в sc-коде}
+  Экземпляр абсолютного понятия никогда не выражает связь между объектами.
+  
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Absolute_concept_Number}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item sc-элемент \idtf{число} - это абсолютное понятие, которое
+    выражает множество всех чисел
+  \item для обозначения абсолютного понятия используется sc-элемент со
+    звездой внутри
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Абсолютное понятие в sc-коде (sc-структура)}
+  Экземпляр абсолютного понятия может состоять из частей, тогда он
+  является sc-структурой.
+  
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Absolute_concept_Complex_number}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item sc-элемент с точкой внутри - это sc-структура (для простоты
+    понимания проведите аналогию со структурами в языках
+    программирования)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Относительное понятие в sc-коде (отношение общего вида)}
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Relational_concept_Greater}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Относительное понятие в sc-коде (ролевое отношение)}
+  Ролевое (атрибутивное) отношение - это атрибут.
+
+  \begin{center}
+    \begin{figure}
+      \includegraphics{basic/Absolute_concept_Complex_number}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "sc_code_in_examples"
+%%% End: 
