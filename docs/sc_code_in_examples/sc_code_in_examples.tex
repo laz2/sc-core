@@ -19,7 +19,7 @@
 % along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
 % -----------------------------------------------------------------------------
 
-\documentclass[hyperref={pdftex,unicode}]{beamer}
+\documentclass[hyperref={pdftex,unicode},compress]{beamer}
 
 \usepackage{latexsym}
 \usepackage[warn]{mathtext}     % русские буквы буквы в формулах (с предупреждением)
@@ -38,7 +38,11 @@
 
 \usepackage{rotating}
 
+\mode<presentation>
 \usetheme{Warsaw}
+\usecolortheme{lily}
+\useoutertheme[subsection=false]{smoothbars}
+\useinnertheme{rectangles}
 
 \newcommand{\objeqv}{
   \begin{center}
@@ -59,6 +63,13 @@
 \begin{frame}
   \maketitle{}
 \end{frame}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}[plain]{Содержание}
+    \tableofcontents[currentsection,currentsubsection,subsubsectionstyle=show/show/shaded]
+  \end{frame}
+} 
 
 \input{intro}
 \input{basic}

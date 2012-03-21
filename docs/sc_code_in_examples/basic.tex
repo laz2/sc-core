@@ -86,7 +86,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{А теперь усложним пример...}
+\begin{frame}{А теперь посмотрим пример покрупнее...}
   \begin{center}
     \[ S = \{S1, S2, S2, a\}; \]
     \[ S1 = \{a, b\}; \]
@@ -100,7 +100,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Мощь семантических сетей...}
+\begin{frame}{Сила семантических сетей...}
   \begin{center}
     Честно сказать, я затрудняюсь с ходу написать здесь что-то
     полезное.
@@ -119,14 +119,14 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Кортеж}
+\begin{frame}{Кортеж (ориентированное множество)}
   \begin{center}
     \[ T = <a, b, c> \]
     
     \objeqv
 
     \begin{figure}
-      \includegraphics[scale=0.65]{basic/Tuple}
+      \includegraphics[scale=0.60]{basic/Tuple}
     \end{figure}
   \end{center}
 
@@ -135,7 +135,7 @@
     \textbf{атрибутом} и выражает роль объекта в рамках множества
   \item атрибуты \idtf{1\_}, \idtf{2\_}, \idtf{3\_} и т.д. называются
     порядковыми
-  \item идентификатор атрибута должен заканчиваться символом `\_`
+  \item идентификатор атрибута должен заканчиваться символом "\_"
   \item кортеж в sc-тексте - это множество, каждый элемент которого
     принадлежит ему с указанием определенной роли
   \end{itemize}
@@ -156,7 +156,8 @@
   \end{center}
 
   \begin{itemize}
-  \item ролей (атрибутов) у вхождения элемента в множество может быть несколько
+  \item ролей (атрибутов) у вхождения элемента во множество может быть
+    несколько
   \end{itemize}
 \end{frame}
 
@@ -167,19 +168,19 @@
     \objeqv
 
     \begin{figure}
-      \includegraphics[scale=0.8]{basic/Relation}
+      \includegraphics[scale=0.9]{basic/Relation}
     \end{figure}
-  \end{center}
 
-  \begin{itemize}
-  \item для обозначения отношений используется кружок с наклонным
-    крестом внутри
-  \item элемент в виде кружка с горизонтальной чертой внутри
-    называется связкой и выражает связь между своими компонентами
-  \item в sc-коде отношение - это множество связок
-  \item идентификатор отношения в sc-коде должен обязательно
-    заканчиваться символом "*"
-  \end{itemize}
+    \begin{itemize}
+    \item для обозначения отношений используется кружок с наклонным
+      крестом внутри
+    \item sc-элемент в виде кружка с горизонтальной чертой внутри
+      называется связкой и выражает связь между своими компонентами
+    \item в sc-коде отношение - это множество связок
+    \item идентификатор отношения в sc-коде должен обязательно
+      заканчиваться символом "*"
+    \end{itemize}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Бинарная ориентированная пара}
@@ -234,68 +235,29 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[shrink=10]{Отношение \idtf{включение*} и \idtf{строгое
-      включение*}}
-  \begin{center}
-    \begin{eqnarray*}
-      S_1 = \{ a, b, c, d \}; \\
-      S_2 = \{ b, c \}; \\
-      S_1 \supset S_2; \\
-      S_1 \supseteq S_2.
-    \end{eqnarray*}
-
-    \objeqv
-
-    \begin{figure}
-      \includegraphics[scale=0.7]{basic/Relation_Inclusion_and_Strict_inclusion}
-    \end{figure}
-  \end{center}
-
+\begin{frame}[shrink=5]{Правила формирования идентификаторов sc-элементов}
   \begin{itemize}
-  \item sc-элементы с одинаковыми идентификаторами склеиваются
+  \item если идентификатор начинается с большой буквы, то данный
+    sc-элемент обозначает объект с таким именем (имя собственное):
+    \begin{itemize}
+    \item SC-код
+    \item Множество всех возможных чисел
+    \item Множество всех студентов
+    \item Земля
+    \end{itemize}
+  \item если идентификатор начинается с маленькой буквы, то данный
+    sc-элемент обозначает множество всех объектов с таким именем (имя
+    нарицательное):
+    \begin{itemize}
+    \item число
+    \item sc-элемент
+    \item студент
+    \item планета
+    \end{itemize}
+  \item идентификатор отношения общего вида должен заканчиваться на символ "*"
+  \item идентификатор атрибута должен заканчиваться на символ "\_"
   \end{itemize}
 \end{frame}
-
-\begin{frame}[shrink=10]{Отношение \idtf{объединение*}}
-  \begin{center}
-    \begin{eqnarray*}
-      S_1 = \{ S_2, a, b \}; \\
-      S_2 = \{ b, c, d \}; \\
-      S = S_1 \cap S_2 = \{ a, b, c, d, S_2 \}.
-    \end{eqnarray*}
-
-    \objeqv
-
-    \begin{figure}
-      \includegraphics[scale=0.7]{basic/Relation_Union}
-    \end{figure}
-  \end{center}
-\end{frame}
-
-\begin{frame}[shrink=10]{Отношение \idtf{пересечение*}}
-  \begin{center}
-    \begin{eqnarray*}
-      S_1 = \{ S_2, a, b \}; \\
-      S_2 = \{ b, c, d \}; \\
-      S = S_1 \cup S_2 = \{ b \}.
-    \end{eqnarray*}
-
-    \objeqv
-
-    \begin{figure}
-      \includegraphics[scale=0.7]{basic/Relation_Intersection}
-    \end{figure}
-  \end{center}
-\end{frame}
-
-\begin{frame}[shrink=10]{Отношение \idtf{разбиение*}}
-  \begin{center}
-    \begin{figure}
-      \includegraphics[scale=0.7]{basic/Relation_Partition}
-    \end{figure}
-  \end{center}
-\end{frame}
-
 
 \begin{frame}{Доп. элемент SCg: Шина}
   \begin{center}
@@ -384,6 +346,85 @@
   \end{center}
 \end{frame}
 
+\subsection{SC-язык теории множеств}
+
+\begin{frame}{Что такое sc-язык?}
+  Набор абсолютных и относительных понятий предметной области задает
+  \textbf{sc-язык} данной предметной области. SC-узлы понятий этого
+  sc-языка называются его \textbf{ключевыми узлами}.
+
+  Пример sc-языков:
+  \begin{itemize}
+  \item sc-язык теории множеств
+  \item sc-язык логики (SCL, SC Logic)
+  \item sc-язык теории графов
+  \item sc-язык числовых систем
+  \end{itemize}
+
+  Мы рассмотрим некоторые ключевые узлы sc-языка теории множеств.
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{включение*} и \idtf{строгое
+      включение*}}
+  \begin{center}
+    \begin{eqnarray*}
+      S_1 = \{ a, b, c, d \}; \\
+      S_2 = \{ b, c \}; \\
+      S_1 \supset S_2; \\
+      S_1 \supseteq S_2.
+    \end{eqnarray*}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_Inclusion_and_Strict_inclusion}
+    \end{figure}
+  \end{center}
+
+  \begin{itemize}
+  \item sc-элементы с одинаковыми идентификаторами склеиваются
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{объединение*}}
+  \begin{center}
+    \begin{eqnarray*}
+      S_1 = \{ S_2, a, b \}; \\
+      S_2 = \{ b, c, d \}; \\
+      S = S_1 \cap S_2 = \{ a, b, c, d, S_2 \}.
+    \end{eqnarray*}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_Union}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{пересечение*}}
+  \begin{center}
+    \begin{eqnarray*}
+      S_1 = \{ S_2, a, b \}; \\
+      S_2 = \{ b, c, d \}; \\
+      S = S_1 \cup S_2 = \{ b \}.
+    \end{eqnarray*}
+
+    \objeqv
+
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_Intersection}
+    \end{figure}
+  \end{center}
+\end{frame}
+
+\begin{frame}[shrink=10]{Отношение \idtf{разбиение*}}
+  \begin{center}
+    \begin{figure}
+      \includegraphics[scale=0.7]{basic/Relation_Partition}
+    \end{figure}
+  \end{center}
+\end{frame}
 
 %%% Local Variables: 
 %%% mode: latex
