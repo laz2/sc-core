@@ -1,4 +1,3 @@
-
+.idea
+Gemfile.lock
 /build
-/tools/ruby-sc-tools/.idea
-/tools/ruby-sc-tools/Gemfile.lock

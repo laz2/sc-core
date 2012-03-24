@@ -18,7 +18,9 @@
 # along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
 #++
 
-require './dsl'
+$:.unshift File.expand_path('../utils/sc_constrc', File.dirname(__FILE__))
+
+require 'dsl'
 
 include SCConstrCompiler::DSL
 
@@ -442,6 +444,8 @@ def_constr :std_ord_bin_conn1a,
   return_with e0, e1, e2, e3, e4, e5, e6, e7, e8
 end
 
+def_constr :std_on_segment, sc_segment!(:s), sc_bool(:foreign)
+
 footer <<EOF
 // standart filters and functions
 static bool filter_check_type(sc_param *regs,int cnt,int input[]);
@@ -641,57 +645,64 @@ void __init_std_constraints()
   REGISTER_CONSTRAINT(__constr_all_output,all_output,DECONSTRUCT_NIL);
   REGISTER_CONSTRAINT(__constr_arc_type_input,arc_type_input,dec_arc_type_input);
   REGISTER_CONSTRAINT(__constr_arc_type_output,arc_type_output,dec_arc_type_output);
-  REGISTER_CONSTRAINT(__constr_3faa,std3_faa,dec_std3_faa);
-  REGISTER_CONSTRAINT(__constr_3faf,std3_faf,dec_std3_faf);
+  REGISTER_CONSTRAINT(__constr_std3_faa,std3_faa,dec_std3_faa);
+  REGISTER_CONSTRAINT(__constr_std3_faf,std3_faf,dec_std3_faf);
 
-  REGISTER_CONSTRAINT(__constr_3aaf,std3_aaf,dec_std3_aaf);
-  REGISTER_CONSTRAINT(__constr_3dfd,std3_dfd,dec_std3_dfd);
-  REGISTER_CONSTRAINT(__constr_5faaaa,std5_faaaa,dec_std5_faaaa);
+  REGISTER_CONSTRAINT(__constr_std3_aaf,std3_aaf,dec_std3_aaf);
+  REGISTER_CONSTRAINT(__constr_std3_dfd,std3_dfd,dec_std3_dfd);
+  REGISTER_CONSTRAINT(__constr_std5_faaaa,std5_faaaa,dec_std5_faaaa);
 
 #if 0
-  REGISTER_CONSTRAINT(__constr_5faaaf,std5_faaaf,dec_std5_faaaf);
+  REGISTER_CONSTRAINT(__constr_std5_faaaf,std5_faaaf,dec_std5_faaaf);
 #else
   std5_faaaf.factory = std5_f_a_a_a_f_factory;
   std5_faaaf.deconstruct = &dec_std5_faaaf;
   if (sc_constraint_register(&std5_faaaf))
     SC_ABORT();
-  __constr_5faaaf = std5_faaaf.id;
+  __constr_std5_faaaf = std5_faaaf.id;
 #endif
 
   std_on_segment.factory = std_on_segment_factory;
   std_on_segment.deconstruct = 0;
   if (sc_constraint_register(&std_on_segment))
     SC_ABORT();
-  __constr_on_segment = std_on_segment.id;
+  __constr_std_on_segment = std_on_segment.id;
 
-  REGISTER_CONSTRAINT(__constr_5fafaa,std5_fafaa,dec_std5_fafaa);
-  REGISTER_CONSTRAINT(__constr_5fafaf,std5_fafaf,dec_std5_fafaf);
-  REGISTER_CONSTRAINT(__constr_5aaaaf,std5_aaaaf,dec_std5_aaaaf);
-  REGISTER_CONSTRAINT(__constr_5aafaa,std5_aafaa,dec_std5_aafaa);
-  REGISTER_CONSTRAINT(__constr_5aafaf,std5_aafaf,dec_std5_aafaf);
-  REGISTER_CONSTRAINT(__constr_ord_bin_conn1,std_ord_bin_conn1,dec_std_ord_bin_conn1);
-  REGISTER_CONSTRAINT(__constr_ord_bin_conn1_def,std_ord_bin_conn1_def,dec_std_ord_bin_conn1_def);
-  REGISTER_CONSTRAINT(__constr_ord_bin_conn2,std_ord_bin_conn2,dec_std_ord_bin_conn2);
-  REGISTER_CONSTRAINT(__constr_3l2_faaaf,std3l2_faaaf,dec_std3l2_faaaf);
-  REGISTER_CONSTRAINT(__constr_5_3_aaaafaf,std5_3_aaaafaf,dec_std5_3_aaaafaf);
-  REGISTER_CONSTRAINT(__constr_in_set,std_in_set,dec_std_in_set);
-  REGISTER_CONSTRAINT(__constr_sely3_p1,std_sely3_p1,dec_std_sely3_p1);
-  REGISTER_CONSTRAINT(__constr_sely3_u1p2,std_sely3_u1p2,dec_std_sely3_u1p2);
-  REGISTER_CONSTRAINT(__constr_sely3_u1u2p3,std_sely3_u1u2p3,dec_std_sely3_u1u2p3);
-  REGISTER_CONSTRAINT(__constr_sely5_p1,std_sely5_p1,dec_std_sely5_p1);
-  REGISTER_CONSTRAINT(__constr_sely5_u1p2,std_sely5_u1p2,dec_std_sely5_u1p2);
-  REGISTER_CONSTRAINT(__constr_sely5_u1u2p3,std_sely5_u1u2p3,dec_std_sely5_u1u2p3);
-  REGISTER_CONSTRAINT(__constr_sely5_u1u2u3p4,std_sely5_u1u2u3p4,dec_std_sely5_u1u2u3p4);
-  REGISTER_CONSTRAINT(__constr_sely5_u1u2u3u4p5,std_sely5_u1u2u3u4p5,dec_std_sely5_u1u2u3u4p5);
-  REGISTER_CONSTRAINT(__constr_intersect2,std_intersect2,dec_std_intersect2);
-  REGISTER_CONSTRAINT(__constr_bin_conn_unord1,std_bin_conn_unord1,dec_std_bin_conn_unord1);
-  REGISTER_CONSTRAINT(__constr_3l2_5faaaf,std_3l2_5faaaf,dec_std_3l2_5faaaf);
-  REGISTER_CONSTRAINT(__constr_4ln5_faaaaaffa,std_4ln5_faaaaaffa,dec_std_4ln5_faaaaaffa);
-  REGISTER_CONSTRAINT(__constr_4l5_faaaaaffa,std_4l5_faaaaaffa,dec_std_4l5_faaaaaffa);
-  REGISTER_CONSTRAINT(__constr_ord_bin_conn1a,std_ord_bin_conn1a,dec_std_ord_bin_conn1a);
+  REGISTER_CONSTRAINT(__constr_std5_fafaa,std5_fafaa,dec_std5_fafaa);
+  REGISTER_CONSTRAINT(__constr_std5_fafaf,std5_fafaf,dec_std5_fafaf);
+  REGISTER_CONSTRAINT(__constr_std5_aaaaf,std5_aaaaf,dec_std5_aaaaf);
+  REGISTER_CONSTRAINT(__constr_std5_aafaa,std5_aafaa,dec_std5_aafaa);
+  REGISTER_CONSTRAINT(__constr_std5_aafaf,std5_aafaf,dec_std5_aafaf);
+  REGISTER_CONSTRAINT(__constr_std_ord_bin_conn1,std_ord_bin_conn1,dec_std_ord_bin_conn1);
+  REGISTER_CONSTRAINT(__constr_std_ord_bin_conn1_def,std_ord_bin_conn1_def,dec_std_ord_bin_conn1_def);
+  REGISTER_CONSTRAINT(__constr_std_ord_bin_conn2,std_ord_bin_conn2,dec_std_ord_bin_conn2);
+  REGISTER_CONSTRAINT(__constr_std3l2_faaaf,std3l2_faaaf,dec_std3l2_faaaf);
+  REGISTER_CONSTRAINT(__constr_std5_3_aaaafaf,std5_3_aaaafaf,dec_std5_3_aaaafaf);
+  REGISTER_CONSTRAINT(__constr_std_in_set,std_in_set,dec_std_in_set);
+  REGISTER_CONSTRAINT(__constr_std_sely3_p1,std_sely3_p1,dec_std_sely3_p1);
+  REGISTER_CONSTRAINT(__constr_std_sely3_u1p2,std_sely3_u1p2,dec_std_sely3_u1p2);
+  REGISTER_CONSTRAINT(__constr_std_sely3_u1u2p3,std_sely3_u1u2p3,dec_std_sely3_u1u2p3);
+  REGISTER_CONSTRAINT(__constr_std_sely5_p1,std_sely5_p1,dec_std_sely5_p1);
+  REGISTER_CONSTRAINT(__constr_std_sely5_u1p2,std_sely5_u1p2,dec_std_sely5_u1p2);
+  REGISTER_CONSTRAINT(__constr_std_sely5_u1u2p3,std_sely5_u1u2p3,dec_std_sely5_u1u2p3);
+  REGISTER_CONSTRAINT(__constr_std_sely5_u1u2u3p4,std_sely5_u1u2u3p4,dec_std_sely5_u1u2u3p4);
+  REGISTER_CONSTRAINT(__constr_std_sely5_u1u2u3u4p5,std_sely5_u1u2u3u4p5,dec_std_sely5_u1u2u3u4p5);
+  REGISTER_CONSTRAINT(__constr_std_intersect2,std_intersect2,dec_std_intersect2);
+  REGISTER_CONSTRAINT(__constr_std_bin_conn_unord1,std_bin_conn_unord1,dec_std_bin_conn_unord1);
+  REGISTER_CONSTRAINT(__constr_std_3l2_5faaaf,std_3l2_5faaaf,dec_std_3l2_5faaaf);
+  REGISTER_CONSTRAINT(__constr_std_4ln5_faaaaaffa,std_4ln5_faaaaaffa,dec_std_4ln5_faaaaaffa);
+  REGISTER_CONSTRAINT(__constr_std_4l5_faaaaaffa,std_4l5_faaaaaffa,dec_std_4l5_faaaaaffa);
+  REGISTER_CONSTRAINT(__constr_std_ord_bin_conn1a,std_ord_bin_conn1a,dec_std_ord_bin_conn1a);
 }
 EOF
 
-require './generator'
+if $PROGRAM_NAME == __FILE__
+  require 'generator'
 
-puts SCConstrCompiler::Generator.process(:Structs)
+  if ARGV.size != 1
+    puts "Error: Pass output directory path as first command line argument."
+    exit(1)
+  else
+    File.open(File.join(ARGV[0], "std_constraints.cpp"), 'w') { |f| f << SCConstrCompiler::Generator.process(:Structs) }
+  end
+end

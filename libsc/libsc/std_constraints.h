@@ -38,38 +38,38 @@ extern LIBSC_API sc_uint
 	__constr_all_output,
 	__constr_arc_type_input,
 	__constr_arc_type_output,
-	__constr_3faa,
-	__constr_3faf,
-	__constr_3aaf,
-	__constr_3dfd,
-	__constr_5faaaa,
-	__constr_5faaaf,
-	__constr_5fafaa,
-	__constr_5fafaf,
-	__constr_5aaaaf,
-	__constr_5aafaa,
-	__constr_5aafaf,
-	__constr_ord_bin_conn1,
-	__constr_ord_bin_conn1_def,
-	__constr_ord_bin_conn2,
-	__constr_3l2_faaaf,
-	__constr_5_3_aaaafaf,
-	__constr_in_set,
-	__constr_sely3_p1,
-	__constr_sely3_u1p2,
-	__constr_sely3_u1u2p3,
-	__constr_sely5_p1,
-	__constr_sely5_u1p2,
-	__constr_sely5_u1u2p3,
-	__constr_sely5_u1u2u3p4,
-	__constr_sely5_u1u2u3u4p5,
-	__constr_intersect2,
-	__constr_3l2_5faaaf,
-	__constr_bin_conn_unord1,
-	__constr_4ln5_faaaaaffa,
-	__constr_4l5_faaaaaffa,
-	__constr_ord_bin_conn1a,
-	__constr_on_segment;
+	__constr_std3_faa,
+	__constr_std3_faf,
+	__constr_std3_aaf,
+	__constr_std3_dfd,
+	__constr_std5_faaaa,
+	__constr_std5_faaaf,
+	__constr_std5_fafaa,
+	__constr_std5_fafaf,
+	__constr_std5_aaaaf,
+	__constr_std5_aafaa,
+	__constr_std5_aafaf,
+	__constr_std_ord_bin_conn1,
+	__constr_std_ord_bin_conn1_def,
+	__constr_std_ord_bin_conn2,
+	__constr_std3l2_faaaf,
+	__constr_std5_3_aaaafaf,
+	__constr_std_in_set,
+	__constr_std_sely3_p1,
+	__constr_std_sely3_u1p2,
+	__constr_std_sely3_u1u2p3,
+	__constr_std_sely5_p1,
+	__constr_std_sely5_u1p2,
+	__constr_std_sely5_u1u2p3,
+	__constr_std_sely5_u1u2u3p4,
+	__constr_std_sely5_u1u2u3u4p5,
+	__constr_std_intersect2,
+	__constr_std_3l2_5faaaf,
+	__constr_std_bin_conn_unord1,
+	__constr_std_4ln5_faaaaaffa,
+	__constr_std_4l5_faaaaaffa,
+	__constr_std_ord_bin_conn1a,
+	__constr_std_on_segment;
 
 /**
  * @name Стандартные типы шаблонов поиска.
@@ -115,7 +115,7 @@ extern LIBSC_API sc_uint
  * @param e2 #sc_type.
  * @param e3 #sc_type.
  */
-#define CONSTR_3_f_a_a		__constr_3faa
+#define CONSTR_3_f_a_a		__constr_std3_faa
 
 /**
  * @brief Ограничение поиска по "тройкам" с фиксированным @p e1 и @p e3.
@@ -123,7 +123,7 @@ extern LIBSC_API sc_uint
  * @param e2 #sc_type.
  * @param e3 #sc_addr.
  */
-#define CONSTR_3_f_a_f		__constr_3faf
+#define CONSTR_3_f_a_f		__constr_std3_faf
 
 /**
  * @brief Ограничение поиска по "тройкам" с фиксированным @p e3.
@@ -131,8 +131,8 @@ extern LIBSC_API sc_uint
  * @param e2 #sc_type.
  * @param e3 #sc_addr.
  */
-#define CONSTR_3_a_a_f		__constr_3aaf
-#define CONSTR_3_d_f_d		__constr_3dfd
+#define CONSTR_3_a_a_f		__constr_std3_aaf
+#define CONSTR_3_d_f_d		__constr_std3_dfd
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным первым элементом.
@@ -142,7 +142,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_type.
  */
-#define CONSTR_5_f_a_a_a_a	__constr_5faaaa
+#define CONSTR_5_f_a_a_a_a	__constr_std5_faaaa
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным первым и пятым элементами.
@@ -152,7 +152,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_addr.
  */
-#define CONSTR_5_f_a_a_a_f	__constr_5faaaf
+#define CONSTR_5_f_a_a_a_f	__constr_std5_faaaf
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным первым и третьим элементами.
@@ -162,7 +162,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_type.
  */
-#define CONSTR_5_f_a_f_a_a	__constr_5fafaa
+#define CONSTR_5_f_a_f_a_a	__constr_std5_fafaa
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным первым, третьим и пятым элементами.
@@ -172,7 +172,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_addr.
  */
-#define CONSTR_5_f_a_f_a_f	__constr_5fafaf
+#define CONSTR_5_f_a_f_a_f	__constr_std5_fafaf
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным пятым элементом.
@@ -182,7 +182,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_addr.
  */
-#define CONSTR_5_a_a_a_a_f	__constr_5aaaaf
+#define CONSTR_5_a_a_a_a_f	__constr_std5_aaaaf
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным третим элементом.
@@ -192,7 +192,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_type.
  */
-#define CONSTR_5_a_a_f_a_a	__constr_5aafaa
+#define CONSTR_5_a_a_f_a_a	__constr_std5_aafaa
 
 /**
  * @brief Тип шаблона поиска по "пятеркам" с фиксированным третим и пятым элементами.
@@ -202,7 +202,7 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_addr.
  */
-#define CONSTR_5_a_a_f_a_f	__constr_5aafaf
+#define CONSTR_5_a_a_f_a_f	__constr_std5_aafaf
 
 /**
  * @brief Тип шаблона поиска по связкам бинарного отношения с фиксированным третим и пятым элементами:
@@ -221,9 +221,9 @@ extern LIBSC_API sc_uint
  * @param e10 #sc_type, маска типа дуги, связывающей @p val1_attr c e4.
  * @param val2_attr #sc_addr, знак уточняющего атрибута для @p val1.
  */
-#define CONSTR_ORD_BIN_CONN1	__constr_ord_bin_conn1
-#define CONSTR_ORD_BIN_CONN1_DEF	__constr_ord_bin_conn1_def
-#define CONSTR_ORD_BIN_CONN2	__constr_ord_bin_conn2
+#define CONSTR_ORD_BIN_CONN1     __constr_std_ord_bin_conn1
+#define CONSTR_ORD_BIN_CONN1_DEF __constr_std_ord_bin_conn1_def
+#define CONSTR_ORD_BIN_CONN2     __constr_std_ord_bin_conn2
 
 /**
  * @brief Тип шаблона поиска по определенным конструкциям с фиксированным первым и пятым элементами.
@@ -237,29 +237,29 @@ extern LIBSC_API sc_uint
  * @param e4 #sc_type.
  * @param e5 #sc_addr.
  */
-#define CONSTR_3l2_f_a_a_a_f	__constr_3l2_faaaf
-#define CONSTR_5_3_a_a_a_a_f_a_f __constr_5_3_aaaafaf
-#define CONSTR_in_set		__constr_in_set
-#define CONSTR_sely3_p1		__constr_sely3_p1
-#define CONSTR_sely3_u1p2	__constr_sely3_u1p2
-#define CONSTR_sely3_u1u2p3	__constr_sely3_u1u2p3
-#define CONSTR_sely5_p1		__constr_sely5_p1
-#define CONSTR_sely5_u1p2	__constr_sely5_u1p2
-#define CONSTR_sely5_u1u2p3	__constr_sely5_u1u2p3
-#define CONSTR_sely5_u1u2u3p4	__constr_sely5_u1u2u3p4
-#define CONSTR_sely5_u1u2u3u4p5	__constr_sely5_u1u2u3u4p5
-#define CONSTR_intersect2	__constr_intersect2
-#define CONSTR_3l2_5faaaf	__constr_3l2_5faaaf
-#define CONSTR_bin_conn_unord1	__constr_bin_conn_unord1
-#define CONSTR_4ln5_faaaaaffa	__constr_4ln5_faaaaaffa
-#define CONSTR_4l5_faaaaaffa	__constr_4l5_faaaaaffa
-#define CONSTR_ORD_BIN_CONN1A	__constr_ord_bin_conn1a
+#define CONSTR_3l2_f_a_a_a_f     __constr_std3l2_faaaf
+#define CONSTR_5_3_a_a_a_a_f_a_f __constr_std5_3_aaaafaf
+#define CONSTR_in_set            __constr_std_in_set
+#define CONSTR_sely3_p1          __constr_std_sely3_p1
+#define CONSTR_sely3_u1p2        __constr_std_sely3_u1p2
+#define CONSTR_sely3_u1u2p3      __constr_std_sely3_u1u2p3
+#define CONSTR_sely5_p1          __constr_std_sely5_p1
+#define CONSTR_sely5_u1p2        __constr_std_sely5_u1p2
+#define CONSTR_sely5_u1u2p3      __constr_std_sely5_u1u2p3
+#define CONSTR_sely5_u1u2u3p4    __constr_std_sely5_u1u2u3p4
+#define CONSTR_sely5_u1u2u3u4p5  __constr_std_sely5_u1u2u3u4p5
+#define CONSTR_intersect2        __constr_std_intersect2
+#define CONSTR_3l2_5faaaf        __constr_std_3l2_5faaaf
+#define CONSTR_bin_conn_unord1   __constr_std_bin_conn_unord1
+#define CONSTR_4ln5_faaaaaffa    __constr_std_4ln5_faaaaaffa
+#define CONSTR_4l5_faaaaaffa     __constr_std_4l5_faaaaaffa
+#define CONSTR_ORD_BIN_CONN1A    __constr_std_ord_bin_conn1a
 // }@
 
 /// Constraint for iterate over elements in specified segment.
 /// @param seg #sc_segment, which constraints elements.
 /// @param foreign bool, if false, then skip links to elements in other segments.
-#define CONSTR_ON_SEGMENT __constr_on_segment
+#define CONSTR_ON_SEGMENT __constr_std_on_segment
 
 /**
  * @brief Функция, которая проводит последующую инициализацию после первичной инициализации подсистемы шаблонов поиска.

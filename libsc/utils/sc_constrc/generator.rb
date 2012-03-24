@@ -18,18 +18,23 @@
 # along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
 #++
 
+$:.unshift File.dirname(__FILE__) unless $:.member? File.dirname(__FILE__)
+
 require 'erb'
 require 'set'
 require 'stringio'
 
-require './compiler'
+require 'compiler'
 
 module SCConstrCompiler
   module Generator
     TYPE_MAPPING = {
         :sc_type => 'SC_PD_TYPE',
         :sc_addr => 'SC_PD_ADDR',
-        :sc_addr_0 => 'SC_PD_ADDR_0'
+        :sc_addr_0 => 'SC_PD_ADDR_0',
+        :sc_int => 'SC_PD_INT',
+        :sc_segment => 'SC_PD_SEGMENT',
+        :sc_bool => 'SC_PD_BOOLEAN'
     }
 
     INSTR_MAPPING = {
@@ -46,10 +51,7 @@ module SCConstrCompiler
 
       helper = const_get(gen.to_s + 'Helper')
 
-      append_features helper
-      puts instance_methods
-
-      template = gen.to_s + '_template.erb'
+      template = File.join(File.dirname(__FILE__), gen.to_s.downcase! + '_template.erb')
       File.open(template) do |f|
         t = ERB.new f.read, nil, '<>'
         t.result(binding)
@@ -61,8 +63,10 @@ module SCConstrCompiler
         s = StringIO.new
 
         ary.each_with_index do |el, i|
+          s << '    '
           yield el, i, s
-          s << ', ' unless i + 1 == ary.size
+          s << ',' unless i + 1 == ary.size
+          s << "\n"
         end
 
         s.string

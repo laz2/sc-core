@@ -12,6 +12,7 @@ option(SC_CORE_BUILD_DOC     "Build sc-core documentation (need doxygen)." OFF)
 option(SC_CORE_BUILD_EXAMPLE "Build sc-core examples." OFF)
 option(SC_CORE_BUILD_TOOL    "Build sc-core tools." OFF)
 option(SC_CORE_PACK          "Pack sc-core module in various formats." OFF)
+option(use_ruby_scconstrc    "Use ruby sc-constraints compiler (libsc/libsc/gen_std_constraints.rb, libsc/utils/sc_constrc)." OFF)
 
 set(SC_CORE_SOURCE_ROOT ${CMAKE_SOURCE_DIR})
 

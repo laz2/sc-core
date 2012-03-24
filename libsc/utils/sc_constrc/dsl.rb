@@ -18,7 +18,9 @@
 # along with OSTIS.  If not, see <http://www.gnu.org/licenses/>.
 #++
 
-require './compiler'
+$:.unshift File.dirname(__FILE__) unless $:.member? File.dirname(__FILE__)
+
+require 'compiler'
 
 module SCConstrCompiler
   # Contains DSL-methods top scope of sc-constraint generator
