@@ -60,39 +60,35 @@ Ubuntu Linux
 Установка RMagick gem под Windows
 ---------------------------------
 
-#. Установить Ruby:
+#. Установить `Ruby <http://rubyinstaller.org/downloads/>`_::
 
-   ``c:\Ruby``
+    c:\Ruby
 
-#. Установить DevKit
+#. Установить `DevKit <http://rubyinstaller.org/downloads/>`_::
 
-   ``c:\DevKit``
+    c:\DevKit
 
-#. Установить ImageMagick вместе с заголовочными файлами C++
+#. Установить `ImageMagick <http://www.imagemagick.org/>`_ вместе с
+   заголовочными файлами C++::
 
-   ``c:\ImageMagick``
+    c:\ImageMagick
 
-#. Запустить cmd и установить переменные окружения:
+#. Запустить cmd и установить переменные окружения::
 
-   ``set PATH=c:\Ruby\bin;c:\ImageMagick``
+    set PATH=c:\Ruby\bin;c:\ImageMagick
+    set CPATH=c:\ImageMagick\include
+    set LIBRARY_PATH=c:\ImageMagick\lib
 
-   ``set CPATH=c:\ImageMagick\include``
+#. Настроить DevKit::
 
-   ``set LIBRARY_PATH=c:\ImageMagick\lib``
+    cd c:\DevKit
+    ruby dk.rb init
+    ruby dk.rb install
+    devkitvars.bat
 
-#. Настроить DevKit:
+#. Установить RMagick::
 
-   ``cd c:\DevKit``
-
-   ``ruby dk.rb init``
-
-   ``ruby dk.rb install``
-
-   ``devkitvars.bat``
-
-#. Установить RMagick:
-
-   ``gem install rmagick``
+    gem install rmagick
 
 
 .. _Python: http://www.python.org/

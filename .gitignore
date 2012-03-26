@@ -1,3 +1,5 @@
+*.dvi
+*.pdf
 .idea
 Gemfile.lock
 /build
