@@ -45,6 +45,29 @@ Ubuntu Linux
 
     rst2html /путь/к/этому/файлу
 
+Описание
+========
+
+Модуль sc-core – это набор библиотек и программ, которые составляют
+ядро обработки sc-текстов. В него входят следующие динамические
+библиотеки:
+
+- libsys : библиотека, обеспечивающая независимость от операционной системы;
+- libtgf : библиотека обработки формата TGF (Transfer Graph Format);
+- libsc : библиотека моделирования sc-памяти;
+- libpm : библиотека процессорного модуля для обработки sc-текстов
+  (например, она включает scp-интерпретатор и навигационно-поисковую
+  машину);
+- librgp : библиотека удаленного подключения к sc-памяти по протоколу
+  RGP (Remote Graph Protocol).
+
+Также модуль sc-core включает следующие программы:
+
+- start-pm : средство запуска процессорного модуля из консоли;
+- dumptgf : утилита для просмотра TGF-файлов в человеко-читаемой форме;
+- scs2tgf : транслятор sc.s-текстов в формат TGF.
+
+
 Сборка
 ======
 
@@ -58,7 +81,7 @@ Ubuntu Linux
 - Boost_ (>= 1.46.1)
 
 Компилятор С/С++
-----------------
+~~~~~~~~~~~~~~~~
 
 Под Windows можно использовать Visual Studio (>= 7). Если вы хотите
 использовать MinGW, то тогда придется собрать STL (STLport)
@@ -70,7 +93,7 @@ Ubuntu Linux
 вас возникнуть не должно.
 
 СMake
------
+~~~~~
 
 Под Ubuntu Linux установка очень проста::
 
@@ -88,7 +111,7 @@ Ubuntu Linux
    при первом запуске.
 
 Flex & Bison
-------------
+~~~~~~~~~~~~
 
 Под Ubuntu Linux установка очень проста::
 
@@ -105,7 +128,7 @@ Flex & Bison
 директорию ``c:\GnuWin32``.
 
 Perl
-----
+~~~~
 
 Под Ubuntu Linux установка очень проста::
 
@@ -114,7 +137,7 @@ Perl
 Под Windows скачайте и запустите инсталлятор StrawberryPerl_.
 
 Boost
------
+~~~~~
 
 В Ubuntu Linux вы можете ставить Boost из пакетов::
 
@@ -144,7 +167,7 @@ Windows, а походу будут указаны особенности сбо
    Configuration`` явно укажите версию компилятора.
 
 Установка RMagick gem под Windows
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Установить `Ruby <http://rubyinstaller.org/downloads/>`_::
 
@@ -176,11 +199,64 @@ Windows, а походу будут указаны особенности сбо
 
     gem install rmagick
 
+Сборка проекта
+--------------
+
+Переходите в директорию с исходными текстами и запускайте консоль:
+
+#. Создадим директорию для сборки::
+
+    mkdir build
+    cd build
+
+#. Сгенерируем файлы сборки при помощи ``cmake``::
+
+    cmake -DSC_CORE_BUILD_EXAMPLES=1 -DSC_CORE_BUILD_TOOLS=1 -DSC_CORE_BUILD_DOCS=1 -DCMAKE_INSTALL_PREFIX="./sc-core" ..
+
+.. Tip:: Под Linux по умолчанию создаются makefile'ы для gcc, и это
+   нас устраивает. А вот Windows cmake по умолчанию будет создавать
+   проектные файлы для наиболее новой версии Visual Studio. Если вы
+   хотите указать явно версию Visual Studio, то это можно сделать явно
+   указав генератор через опцию ``-G``. Например::
+
+    cmake -G "Visual Studio 9 2008" ...
+
+   Полный список генераторов можно узнать, выполнив команду ``cmake --help``.
+
+.. Tip:: Переменная ``CMAKE_INSTALL_PREFIX`` задает директорию, в
+   которую будет производиться установка собранного проекта.
+
+#. Теперь осуществим сборку и установку:
+
+   - Makefile'ы::
+
+      make
+      make install
+
+   - Visual Studio 9.0::
+
+      call "c:\Program Files\Microsoft Visual Studio 9.0\Common7\Tools\vsvars32.bat"
+
+      devenv "sc-core.sln" /build "Debug" /project "ALL_BUILD"
+      devenv "sc-core.sln" /build "RelWithDebInfo" /project "ALL_BUILD"
+
+      devenv "sc-core.sln" /build "Debug" /project "INSTALL"
+      devenv "sc-core.sln" /build "RelWithDebInfo" /project "INSTALL"
+
+   - Visual Studio 10.0::
+
+      call "c:\Program Files\Microsoft Visual Studio 10.0\Common7\Tools\vsvars32.bat"
+
+      devenv "sc-core.sln" /build "Debug" /project "ALL_BUILD"
+      devenv "sc-core.sln" /build "RelWithDebInfo" /project "ALL_BUILD"
+
+      devenv "sc-core.sln" /build "Debug" /project "INSTALL"
+      devenv "sc-core.sln" /build "RelWithDebInfo" /project "INSTALL"
 
 .. _Python: http://www.python.org/
 .. _CMake:  http://www.cmake.org/
 .. _Flex:   http://gnuwin32.sourceforge.net/packages/flex.htm>
 .. _Bison:  http://gnuwin32.sourceforge.net/packages/bison.htm>
 .. _StrawberryPerl: http://strawberryperl.com/
-.. _RubyInstaller: <http://rubyinstaller.org/downloads/>
+.. _RubyInstaller: http://rubyinstaller.org/downloads/
 .. _Boost:  http://www.boost.org/
