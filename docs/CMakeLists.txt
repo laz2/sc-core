@@ -1,7 +1,9 @@
 
 cmake_minimum_required(VERSION 2.6)
 
-set(BINARY_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
+set(BINARY_OUTPUT_DIR  ${CMAKE_CURRENT_BINARY_DIR})
+set(DOXYGEN_OUTPUT_DIR ${BINARY_OUTPUT_DIR}/doc)
+set(DOXYGEN_TAGFILE    ${DOXYGEN_OUTPUT_DIR}/sc-core.tag)
 
 # Generation of doxygen config file
 set(DOXYFILE ${BINARY_OUTPUT_DIR}/sc-core.doxyfile)
