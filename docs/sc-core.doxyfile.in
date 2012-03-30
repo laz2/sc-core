@@ -574,12 +574,12 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = @LIBSC_INCLUDE_DIR@ \
-                         @LIBSYS_INCLUDE_DIR@ \
-                         @LIBTGF_INCLUDE_DIR@ \
-                         @LIBPM_INCLUDE_DIR@ \
-                         @LIBPM_INCLUDE_DIR@/nsm \
-                         @LIBPM_INCLUDE_DIR@/scp
+INPUT                  = @LIBSC_SRC_DIR@ \
+                         @LIBSYS_SRC_DIR@ \
+                         @LIBTGF_SRC_DIR@ \
+                         @LIBPM_SRC_DIR@ \
+                         @LIBPM_SRC_DIR@/nsm \
+                         @LIBPM_SRC_DIR@/scp
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -622,7 +622,7 @@ EXCLUDE_SYMLINKS       = NO
 # against the file with absolute path, so to exclude all test directories
 # for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       =
+EXCLUDE_PATTERNS       = *_p.h *.cpp *.c
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -1342,7 +1342,7 @@ TAGFILES               =
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create
 # a tag file that is based on the input files it reads.
 
-GENERATE_TAGFILE       =
+GENERATE_TAGFILE       = @BINARY_OUTPUT_DIR@/doc/sc-core.tag
 
 # If the ALLEXTERNALS tag is set to YES all external classes will be listed
 # in the class index. If set to NO only the inherited external classes
